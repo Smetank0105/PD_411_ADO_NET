@@ -1,5 +1,4 @@
 //#define SCALAR_CHECK
-//#define INSERCT_CHECK
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 //ADO.NET
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace ADO_NET
 {
@@ -41,25 +41,47 @@ namespace ADO_NET
 			Console.WriteLine(Scalar("SELECT last_name FROM Directors WHERE first_name = N'James'")); 
 #endif
 
-#if INSERT_CHECK
+			//InsertDirector();
+			//Select("*", "Directors");
+
+			InsertMovies();
+			Select("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+		}
+		static void InsertMovies()
+		{
+			Console.Write("Название фильма: ");
+			string movie_name = Console.ReadLine();
+			Console.Write("Дата релиза: ");
+			string release_date = Console.ReadLine();
+			Console.Write("Режиссёр: ");
+			string director = Console.ReadLine();
+
+			Insert
+				(
+				"Movies",
+				"movie_id,movie_name,release_date,director",
+				$"{Convert.ToInt32(Scalar("SELECT MAX(movie_id) FROM Movies")) + 1},N'{movie_name}','{release_date}', {GetDiretorID(director)}"
+				);
+		}
+		static int GetDiretorID(string full_name)
+		{
+			return Convert.ToInt32
+				(
+					Scalar
+					(
+						$"SELECT director_id FROM Directors WHERE first_name = N'{full_name.Split(' ').First()}' AND last_name = N'{full_name.Split(' ').Last()}'"
+					)
+				);
+		}
+		static void InsertDirector()
+		{
 			Console.Write("Введите имя: ");
 			string first_name = Console.ReadLine();
-			Console.WriteLine("Введите фамилию: ");
+			Console.Write("Введите фамилию: ");
 			string last_name = Console.ReadLine();
 
-			string cmd = $"INSERT Directors(director_id,first_name,last_name) VALUES ({Convert.ToInt32(Scalar("SELECT MAX(director_id) FROM Directors")) + 1},N'{first_name}',N'{last_name}')";
-
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
-			command.ExecuteNonQuery();
-
-			connection.Close();
-			Select("*", "Directors"); 
-#endif
-			//Insert("Directors (director_id,first_name,last_name)", "13, N'Christopher', N'Nolan'");
-			//Insert("Movies (movie_id,movie_name,release_date,director)", "10, N'Inception', '2010-07-22', 13");
-			Select("*", "Directors");
-			Select("movie_name,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+			Insert("Directors", "director_id,first_name,last_name",
+				$"{Convert.ToInt32(Scalar("SELECT MAX(director_id) FROM Directors")) + 1},N'{first_name}',N'{last_name}'");
 		}
 		static void Select(string fields, string tables, string condition = "")
 		{
@@ -102,12 +124,27 @@ namespace ADO_NET
 			connection.Close();
 			return obj;
 		}
-		static void Insert(string table, string values)
+		static void Insert(string table, string fields, string values)
 		{
-			connection.Open();
-			string cmd = $"INSERT {table} VALUES ({values})";
+			string primary_key = Scalar
+				(
+				$@"SELECT COLUMN_NAME 
+				FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+				WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA+'.'+QUOTENAME(CONSTRAINT_NAME)),'IsPrimaryKey')=1 
+				AND TABLE_NAME = '{table}'"
+				) as string;
+			string[] fields_for_check = fields.Split(',');
+			string[] values_for_check = values.Split(',');
+			string condition = "";
+			for (int i = 1; i < fields_for_check.Length; i++)
+			{
+				condition += $" {fields_for_check[i]}={values_for_check[i]} AND";
+			}
+			condition = condition.Remove(condition.LastIndexOf(' '), 4);
+			string cmd = $"IF NOT EXISTS(SELECT {primary_key} FROM {table} WHERE {condition}) BEGIN INSERT {table}({fields}) VALUES ({values}); END";
 			SqlCommand command = new SqlCommand(cmd, connection);
-			Console.WriteLine($"Кол-во измененных строк:\t{command.ExecuteNonQuery()}");
+			connection.Open();
+			command.ExecuteNonQuery();
 			connection.Close();
 		}
 	}
