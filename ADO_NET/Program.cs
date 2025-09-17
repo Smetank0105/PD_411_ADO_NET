@@ -1,4 +1,6 @@
-п»їusing System;
+//#define SCALAR_CHECK
+//#define INSERCT_CHECK
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +12,69 @@ namespace ADO_NET
 {
 	class Program
 	{
+		static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Movies;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+		static SqlConnection connection;
 		static void Main(string[] args)
 		{
-			//1) РЎРѕР·РґР°РµРј РїРѕРґРєР»СЋС‡С‡РµРЅРёРµ Рє Р‘Р°Р·Рµ Р”Р°РЅРЅС‹ РЅР° РЎРµСЂРІРµСЂРµ
-			string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Movies;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+			//1) Создаем подключчение к Базе Данны на Сервере
 			Console.WriteLine(connectionString);
-			SqlConnection connection = new SqlConnection();
+			connection = new SqlConnection();
 			connection.ConnectionString = connectionString;
-			//2) РћС‚РєСЂС‹РІР°РµРј СЃРѕРµРґРёРЅРµРЅРёРµ
-			//РџРѕСЃР»Рµ С‚РѕРіРѕ, РєР°Рє РїРѕРґРєР»СЋС‡РµРЅРёРµ СЃРѕР·РґР°РЅРѕ, РѕРЅРѕ РЅРµ СЏРІР»СЏРµС‚СЃСЏ РѕС‚РєСЂС‹С‚С‹Рј. С‚.Рµ. РїРѕРґРєР»СЋС‡РµРЅРёРµ РІСЃРµРіРґР° РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ РІ СЂСѓС‡РЅСѓСЋ РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
+
+#if SCALAR_CHECK
+			Select("*", "Directors");
+			Select("movie_name,first_name+last_name AS director", "Movies, Directors", "director=director_id");
+
+			connection.Open();
+			string cmd = "SELECT COUNT(*) FROM Directors";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			Console.WriteLine($"Кол-во режиссеров:\t{command.ExecuteScalar()}");
+
+			command.CommandText = "SELECT COUNT(*) FROM Movies";
+			Console.WriteLine($"Кол-во фильмов:\t\t{command.ExecuteScalar()}");
+
+			command.CommandText = "SELECT last_name FROM Directors WHERE first_name = N'James'";
+			Console.WriteLine(command.ExecuteScalar());
+
+			connection.Close();
+
+			Console.WriteLine(Scalar("SELECT last_name FROM Directors WHERE first_name = N'James'")); 
+#endif
+
+#if INSERT_CHECK
+			Console.Write("Введите имя: ");
+			string first_name = Console.ReadLine();
+			Console.WriteLine("Введите фамилию: ");
+			string last_name = Console.ReadLine();
+
+			string cmd = $"INSERT Directors(director_id,first_name,last_name) VALUES ({Convert.ToInt32(Scalar("SELECT MAX(director_id) FROM Directors")) + 1},N'{first_name}',N'{last_name}')";
+
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			command.ExecuteNonQuery();
+
+			connection.Close();
+			Select("*", "Directors"); 
+#endif
+			//Insert("Directors (director_id,first_name,last_name)", "13, N'Christopher', N'Nolan'");
+			//Insert("Movies (movie_id,movie_name,release_date,director)", "10, N'Inception', '2010-07-22', 13");
+			Select("*", "Directors");
+			Select("movie_name,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+		}
+		static void Select(string fields, string tables, string condition = "")
+		{
+			//2) Открываем соединение
+			//После того, как подключение создано, оно не является открытым. т.е. подключение всегда открывается в ручную при необходимости
 			connection.Open();
 
-			//3) РЎРѕР·РґР°РµРј 'DataReader'
-			string cmd = "SELECT * FROM Directors";
+			//3) Создаем 'command'
+			string cmd = $"SELECT {fields} FROM {tables}";
+			if (condition != "") cmd += $" WHERE {condition}";
+			cmd += ";";
+
 			SqlCommand command = new SqlCommand(cmd, connection);
 
-			//4) РЎРѕР·РґР°РµРј 'Reader'
+			//4) Создаем 'Reader'
 			SqlDataReader reader = command.ExecuteReader();
 			for (int i = 0; i < reader.FieldCount; i++)
 			{
@@ -35,13 +84,30 @@ namespace ADO_NET
 			while (reader.Read())
 			{
 				//Console.WriteLine($"{reader[0]}\t{reader[1]}\t{reader[2]}");
-				for(int i=0; i < reader.FieldCount;i++)
-					Console.Write(reader[i]+"\t\t");
+				for (int i = 0; i < reader.FieldCount; i++)
+					Console.Write(reader[i] + "\t\t");
 				Console.WriteLine();
 			}
 			reader.Close();
 
-			//?) РџРѕРґРєР»СЋС‡РµРЅРёРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РЅСѓР¶РЅРѕ Р·Р°РєСЂС‹РІР°С‚СЊ
+			//?) Подключение обязательно нужно закрывать
+			connection.Close();
+
+		}
+		static object Scalar(string cmd)
+		{
+			connection.Open();
+			SqlCommand command = new SqlCommand(cmd, connection);
+			object obj = command.ExecuteScalar();
+			connection.Close();
+			return obj;
+		}
+		static void Insert(string table, string values)
+		{
+			connection.Open();
+			string cmd = $"INSERT {table} VALUES ({values})";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			Console.WriteLine($"Кол-во измененных строк:\t{command.ExecuteNonQuery()}");
 			connection.Close();
 		}
 	}
