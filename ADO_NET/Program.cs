@@ -44,7 +44,7 @@ namespace ADO_NET
 			//InsertDirector();
 			//Select("*", "Directors");
 
-			InsertMovies();
+			//InsertMovies();
 			Select("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
 		}
 		static void InsertMovies()

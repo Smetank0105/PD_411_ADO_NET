@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace ADO_NET
+{
+	internal class Connector
+	{
+		private readonly string _connectionString;
+		public Connector(string connectionString) { _connectionString = connectionString; }
+		public object Scalar(string cmd)
+		{
+			SqlConnection connection = new SqlConnection();
+			connection.ConnectionString = _connectionString;
+			connection.Open();
+			SqlCommand command = new SqlCommand(cmd, connection);
+			object result = command.ExecuteScalar();
+			connection.Close();
+			return result;
+		}
+		public void Insert(string table, string fields, string values)
+		{
+			string primary_key = Scalar
+				(
+				$@"SELECT COLUMN_NAME 
+				FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+				WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA+'.'+QUOTENAME(CONSTRAINT_NAME)),'IsPrimaryKey')=1 
+				AND TABLE_NAME = '{table}'"
+				) as string;
+			string[] fields_for_check = fields.Split(',');
+			string[] values_for_check = values.Split(',');
+			string condition = "";
+			for (int i = 0; i < fields_for_check.Length; i++)
+				condition += $" {fields_for_check[i]} = {values_for_check[i]} AND";
+			condition = condition.Remove(condition.LastIndexOf(' '), 4);
+			string cmd = $"IF NOT EXISTS(SELECT {primary_key} FROM {table} WHERE {condition}) BEGIN INSERT {table}({fields}) VALUES ({condition}); END";
+			SqlConnection connection = new SqlConnection();
+			connection.ConnectionString = _connectionString;
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
+		public void Select(string fields, string tables, string condition = "")
+		{
+			string cmd = $"SELECT {fields} FROM {tables}";
+			if (condition != "") cmd += $" WHERE {condition}";
+			cmd += ";";
+			SqlConnection connection = new SqlConnection();
+			connection.ConnectionString = _connectionString;
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			for (int i = 0; i < reader.FieldCount; i++)
+			{
+				Console.Write(reader.GetName(i) + "\t");
+			}
+			Console.WriteLine();
+			while (reader.Read())
+			{
+				for (int i = 0; i < reader.FieldCount; i++)
+					Console.Write(reader[i] + "\t\t");
+				Console.WriteLine();
+			}
+			reader.Close();
+			connection.Close();
+		}
+	}
+}
