@@ -10,15 +10,19 @@ namespace ADO_NET
 	internal class Connector
 	{
 		private readonly string _connectionString;
-		public Connector(string connectionString) { _connectionString = connectionString; }
+		protected SqlConnection _connection;
+		public Connector(string connectionString)
+		{
+			_connectionString = connectionString;
+			_connection = new SqlConnection();
+			_connection.ConnectionString = _connectionString;
+		}
 		public object Scalar(string cmd)
 		{
-			SqlConnection connection = new SqlConnection();
-			connection.ConnectionString = _connectionString;
-			connection.Open();
-			SqlCommand command = new SqlCommand(cmd, connection);
+			_connection.Open();
+			SqlCommand command = new SqlCommand(cmd, _connection);
 			object result = command.ExecuteScalar();
-			connection.Close();
+			_connection.Close();
 			return result;
 		}
 		public void Insert(string table, string fields, string values)
@@ -37,22 +41,18 @@ namespace ADO_NET
 				condition += $" {fields_for_check[i]} = {values_for_check[i]} AND";
 			condition = condition.Remove(condition.LastIndexOf(' '), 4);
 			string cmd = $"IF NOT EXISTS(SELECT {primary_key} FROM {table} WHERE {condition}) BEGIN INSERT {table}({fields}) VALUES ({condition}); END";
-			SqlConnection connection = new SqlConnection();
-			connection.ConnectionString = _connectionString;
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
+			SqlCommand command = new SqlCommand(cmd, _connection);
+			_connection.Open();
 			command.ExecuteNonQuery();
-			connection.Close();
+			_connection.Close();
 		}
 		public void Select(string fields, string tables, string condition = "")
 		{
 			string cmd = $"SELECT {fields} FROM {tables}";
 			if (condition != "") cmd += $" WHERE {condition}";
 			cmd += ";";
-			SqlConnection connection = new SqlConnection();
-			connection.ConnectionString = _connectionString;
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
+			SqlCommand command = new SqlCommand(cmd, _connection);
+			_connection.Open();
 			SqlDataReader reader = command.ExecuteReader();
 			for (int i = 0; i < reader.FieldCount; i++)
 			{
@@ -66,7 +66,7 @@ namespace ADO_NET
 				Console.WriteLine();
 			}
 			reader.Close();
-			connection.Close();
+			_connection.Close();
 		}
 	}
 }

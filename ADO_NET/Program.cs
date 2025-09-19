@@ -48,7 +48,12 @@ namespace ADO_NET
 			//Select("*", "Directors");
 
 			//InsertMovies();
-			Select("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+			//Select("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+
+			MovieConnector movie_connector = new MovieConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString);
+			//movie_connector.SelectDirectors();
+			//movie_connector.SelectMovies();
+			//movie_connector.Select("*","Movies,Directors","director=director_id ; DROP TABLE Actors");
 		}
 		static void InsertMovies()
 		{
