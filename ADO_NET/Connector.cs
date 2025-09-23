@@ -40,7 +40,7 @@ namespace ADO_NET
 			for (int i = 0; i < fields_for_check.Length; i++)
 				condition += $" {fields_for_check[i]} = {values_for_check[i]} AND";
 			condition = condition.Remove(condition.LastIndexOf(' '), 4);
-			string cmd = $"IF NOT EXISTS(SELECT {primary_key} FROM {table} WHERE {condition}) BEGIN INSERT {table}({fields}) VALUES ({condition}); END";
+			string cmd = $"IF NOT EXISTS(SELECT {primary_key} FROM {table} WHERE {condition}) BEGIN INSERT {table}({fields}) VALUES ({values}); END";
 			SqlCommand command = new SqlCommand(cmd, _connection);
 			_connection.Open();
 			command.ExecuteNonQuery();

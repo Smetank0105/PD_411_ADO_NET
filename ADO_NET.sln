@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23 d17.14
+VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADO_NET", "ADO_NET\ADO_NET.csproj", "{78BEC54C-2C83-4D3E-A763-47403A37041D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.csproj", "{DE4DA3D1-1A30-44C9-A732-B0880C441515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySqlLibrary", "MySqlLibrary\MySqlLibrary.csproj", "{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DE4DA3D1-1A30-44C9-A732-B0880C441515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE4DA3D1-1A30-44C9-A732-B0880C441515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE4DA3D1-1A30-44C9-A732-B0880C441515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

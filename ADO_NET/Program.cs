@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Configuration;
+using MySqlLibrary;
+using System.Data;
 
 namespace ADO_NET
 {
@@ -50,10 +52,27 @@ namespace ADO_NET
 			//InsertMovies();
 			//Select("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
 
-			MovieConnector movie_connector = new MovieConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString);
+			//MovieConnector movie_connector = new MovieConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString);
 			//movie_connector.SelectDirectors();
 			//movie_connector.SelectMovies();
 			//movie_connector.Select("*","Movies,Directors","director=director_id ; DROP TABLE Actors");
+
+
+			MyConnector table_movies = new MyConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString, "Movies");
+			//Console.WriteLine();
+			//Console.WriteLine(table_movies.Insert("13,N'Avatar','2009-12-17',1"));
+			//Console.WriteLine(table_movies.Insert("13,N'Titanic','1998-02-20',1"));
+			//Console.WriteLine(table_movies.Update(",'2009-12-16',","movie_id = 12"));
+			table_movies.SelectToConsole("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+			//DataTable table = MyConnector.Select(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString, "SELECT * FROM Movies");
+			//foreach (DataRow row in table.Rows)
+			//{
+			//	foreach (var item in row.ItemArray)
+			//	{
+			//		Console.Write(item.ToString() + "\t");
+			//	}
+			//	Console.WriteLine();
+			//}
 		}
 		static void InsertMovies()
 		{
