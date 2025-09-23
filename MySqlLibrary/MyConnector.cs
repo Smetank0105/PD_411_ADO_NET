@@ -85,9 +85,9 @@ namespace MySqlLibrary
 			for (int i = 0; i < values_for_check.Length; i++)
 			{
 				if (string.IsNullOrWhiteSpace(values_for_check[i])) continue;
-				set_values += $" {_columns.Rows[i + 1]["COLUMN_NAME"].ToString()} = {values_for_check[i]} AND";
+				set_values += $" {_columns.Rows[i + 1]["COLUMN_NAME"].ToString()} = {values_for_check[i]},";
 			}
-			set_values = set_values.Remove(set_values.LastIndexOf(' '), 4);
+			set_values = set_values.Remove(set_values.Length - 1);
 			string cmd = $"UPDATE {_table_name} SET {set_values} WHERE {condition};";
 			SqlCommand command = new SqlCommand(cmd, _connection);
 			_connection.Open();
