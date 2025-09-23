@@ -58,12 +58,12 @@ namespace ADO_NET
 			//movie_connector.Select("*","Movies,Directors","director=director_id ; DROP TABLE Actors");
 
 
-			MyConnector table_movies = new MyConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString, "Movies");
+			//MyConnector table_movies = new MyConnector(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString, "Movies");
 			//Console.WriteLine();
 			//Console.WriteLine(table_movies.Insert("13,N'Avatar','2009-12-17',1"));
 			//Console.WriteLine(table_movies.Insert("13,N'Titanic','1998-02-20',1"));
 			//Console.WriteLine(table_movies.Update(",'2009-12-16',","movie_id = 12"));
-			table_movies.SelectToConsole("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
+			//table_movies.SelectToConsole("movie_name,release_date,first_name+' '+last_name AS director", "Movies, Directors", "director=director_id");
 			//DataTable table = MyConnector.Select(ConfigurationManager.ConnectionStrings["Movies"].ConnectionString, "SELECT * FROM Movies");
 			//foreach (DataRow row in table.Rows)
 			//{
