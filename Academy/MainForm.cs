@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 
 namespace Academy
 {
@@ -16,18 +17,39 @@ namespace Academy
 		string connectionString = "Data Source=SMETANK\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 		SqlConnection connection;
 		Dictionary<string, int> d_groupDirection;
+
+
+
+		readonly string[] statusBarMessages = new string[]
+		{
+			"Количество студентов",
+			"Количество групп",
+			"Количество направлений",
+			"Количество дисциплин",
+			"Количество преподавателей",
+		};
 		public MainForm()
 		{
 			InitializeComponent();
+			AllocConsole();
 			connection = new SqlConnection(connectionString);
-			//LoadDirections();
-			//LoadGroups();
-			//dataGridViewDirections.DataSource = Select("*","Directions");
-			dataGridViewDirections.DataSource = Select(" direction_id AS N'ID', direction_name AS N'Направление обучения', COUNT(group_id) AS N'Кол-во групп'", "Groups RIGHT JOIN Directions ON (direction=direction_id) GROUP BY direction_id,direction_name");
-			dataGridViewGroups.DataSource = Select("group_id,group_name,direction","Groups,Directions","direction=direction_id");
+			Console.WriteLine(tabControl.TabCount);
 			d_groupDirection = LoadDataToComboBox("*","Directions");
 			comboBoxGroupsDirection.Items.AddRange(d_groupDirection.Keys.ToArray());
 			comboBoxGroupsDirection.SelectedIndex = 0;
+			tabControl.SelectedIndex = 1;
+		}
+		void LoadTab(int i)
+		{
+			string tableName = tabControl.TabPages[i].Name.Remove(0,"tabPage".Length);
+			DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
+			dataGridView.DataSource = Select("*",tableName);
+		}
+		void FillStatusBar(int i)
+		{
+			string tableName = tabControl.TabPages[i].Name.Remove(0, "tabPage".Length);
+			DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
+			toolStripStatusLabel.Text = $"{statusBarMessages[i]}: {dataGridView.RowCount - 1}";
 		}
 		DataTable Select(string fields, string tables, string condition="")
 		{
@@ -55,50 +77,6 @@ namespace Academy
 			connection.Close();
 			return table;
 		}
-		void LoadDirections()
-		{
-			string cmd = "SELECT direction_id AS N'ID', direction_name AS N'Направление обучения', COUNT(group_id) AS N'Кол-во групп' FROM Groups RIGHT JOIN Directions ON (direction=direction_id) GROUP BY direction_id,direction_name;";
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
-			SqlDataReader reader = command.ExecuteReader();
-			DataTable table = new DataTable();
-			for (int i = 0; i < reader.FieldCount; i++)
-			{
-				table.Columns.Add(reader.GetName(i));
-			}
-			while (reader.Read())
-			{
-				DataRow row = table.NewRow();
-				for (int i = 0; i < reader.FieldCount; i++)
-					row[i] = reader[i];
-				table.Rows.Add(row);
-			}
-			reader.Close();
-			connection.Close();
-			dataGridViewDirections.DataSource = table;
-		}
-		void LoadGroups()
-		{
-			string cmd = "SELECT group_id AS N'ID',group_name AS N'Группа',COUNT(stud_id) AS N'Кол-во студентов',direction_name AS N'Направление обучения' FROM Students RIGHT JOIN Groups ON ([group]=group_id) JOIN Directions ON (direction=direction_id) GROUP BY group_id,group_name,direction_name;";
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
-			SqlDataReader reader = command.ExecuteReader();
-			DataTable table = new DataTable();
-			for (int i = 0; i < reader.FieldCount; i++)
-			{
-				table.Columns.Add(reader.GetName(i));
-			}
-			while (reader.Read())
-			{
-				DataRow row = table.NewRow();
-				for (int i = 0; i < reader.FieldCount; i++)
-					row[i] = reader[i];
-				table.Rows.Add(row);
-			}
-			reader.Close();
-			connection.Close();
-			dataGridViewGroups.DataSource = table;
-		}
 		Dictionary<string,int> LoadDataToComboBox(string fields, string tables)
 		{
 			Dictionary<string,int> dictionary = new Dictionary<string,int>();
@@ -109,7 +87,6 @@ namespace Academy
 			SqlDataReader reader = command.ExecuteReader();
 			while (reader.Read())
 			{
-				//comboBoxGroupsDirection.Items.Add(reader[1]);
 				dictionary.Add(reader[1].ToString(), Convert.ToInt32(reader[0]));
 			}
 			reader.Close();
@@ -122,6 +99,13 @@ namespace Academy
 			string condition = $"direction=direction_id";
 			if (comboBoxGroupsDirection.SelectedItem.ToString() != "Все") condition += $" AND direction={d_groupDirection[comboBoxGroupsDirection.SelectedItem.ToString()]}";
 			dataGridViewGroups.DataSource = Select("group_id,group_name,direction","Groups,Directions",condition);
+		}
+		[DllImport("Kernel32.dll")]
+		static extern void AllocConsole();
+
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			LoadTab((sender as TabControl).SelectedIndex);
 		}
 	}
 }
