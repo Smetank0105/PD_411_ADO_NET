@@ -14,7 +14,7 @@ namespace Academy
 {
 	public partial class MainForm : Form
 	{
-		string connectionString = "Data Source=SMETANK\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+		internal string connectionString = "Data Source=SMETANK\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 		SqlConnection connection;
 		Dictionary<string, int> d_groupDirection;
 		Dictionary<string, int> d_studentGroup;
@@ -93,7 +93,7 @@ namespace Academy
 			connection.Close();
 			return table;
 		}
-		Dictionary<string,int> LoadDataToComboBox(string fields, string tables)
+		internal Dictionary<string,int> LoadDataToComboBox(string fields, string tables)
 		{
 			Dictionary<string,int> dictionary = new Dictionary<string,int>();
 			dictionary.Add("Все", 0);
@@ -112,9 +112,9 @@ namespace Academy
 
 		private void comboBoxGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			string condition = $"direction=direction_id";
+			string condition = queries[1].Condition;
 			if (comboBoxGroupsDirection.SelectedItem.ToString() != "Все") condition += $" AND direction={d_groupDirection[comboBoxGroupsDirection.SelectedItem.ToString()]}";
-			dataGridViewGroups.DataSource = Select("group_id,group_name,direction","Groups,Directions",condition);
+			dataGridViewGroups.DataSource = Select(queries[1].Fileds, queries[1].Tables,condition);
 		}
 		[DllImport("Kernel32.dll")]
 		static extern void AllocConsole();
@@ -147,6 +147,43 @@ namespace Academy
 			string condition = queries[0].Condition;
 			if (comboBoxStudentsGroup.SelectedItem.ToString() != "Все") condition += $" AND [group]={d_studentGroup[comboBoxStudentsGroup.SelectedItem.ToString()]}";
 			dataGridViewStudents.DataSource = Select(queries[0].Fileds, queries[0].Tables, condition);
+		}
+
+		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if(e.RowIndex >= 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewGroups.Rows[e.RowIndex];
+				GroupForm groupForm = new GroupForm(this);
+				int result = 0;
+				groupForm.group_id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				groupForm.LoadGroupData();
+				if (groupForm.ShowDialog() == DialogResult.OK)
+					result = groupForm.connector.Update(groupForm.UploadGroupData(), $"group_id={groupForm.group_id}");
+				if (result > 0)
+					MessageBox.Show("Запись обновлена.");
+				else
+					MessageBox.Show("Обновить запись не удалось!");
+			}
+			comboBoxGroupsDirection_SelectedIndexChanged(sender, e);
+		}
+
+		private void buttonGroupsInsert_Click(object sender, EventArgs e)
+		{
+			GroupForm groupForm = new GroupForm(this);
+			int result = 0;
+			string cmd = "";
+			if(groupForm.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(groupForm.connector.Scalar("SELECT MAX(group_id) FROM Groups")) + 1).ToString() + ",";
+				cmd += groupForm.UploadGroupData();
+				result = groupForm.connector.Insert(cmd);
+			}
+			if (result > 0)
+				MessageBox.Show("Запись успешна.");
+			else
+				MessageBox.Show("Произвести запись не удалось!");
+			comboBoxGroupsDirection_SelectedIndexChanged(sender, e);
 		}
 	}
 }
