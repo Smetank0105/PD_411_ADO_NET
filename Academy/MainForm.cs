@@ -29,7 +29,7 @@ namespace Academy
 			),
 			new Query
 			(
-			"group_id, group_name,direction_name",
+			"group_id, group_name,direction_name,learning_days",
 			"Groups,Directions",
 			"direction=direction_id"
 			),
@@ -57,9 +57,11 @@ namespace Academy
 			comboBoxStudentsDirection.Items.AddRange(d_groupDirection.Keys.ToArray());
 			comboBoxGroupsDirection.SelectedIndex = 0;
 			comboBoxStudentsDirection.SelectedIndex = 0;
-			tabControl.SelectedIndex = 2;
+			//tabControl.SelectedIndex = 2;
 			for(int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}",true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
+			for (int i = 0; i < tabControl.TabCount; i++)
+				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).CellFormatting += dataGirdViewCellFormating;
 		}
 		void LoadTab(int i)
 		{
@@ -110,6 +112,26 @@ namespace Academy
 			return dictionary;
 		}
 
+		private void dataGirdViewCellFormating(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			if((sender as DataGridView).Columns[e.ColumnIndex].Name == "learning_days")
+			{
+				if(e.Value != null)
+				{
+					string[] day = { "Monday", "Tuesday", "Wednesday", "Trursday", "Friday", "Saturday", "Sunday" };
+					string learning_days = "";
+					int digit = Convert.ToInt32(e.Value);
+					for(int i = 0; i < 7;  i++)
+					{
+						if (digit % 2 == 1)
+							learning_days += day[i] + " ";
+						digit /= 2;
+					}
+					e.Value = learning_days;
+					e.FormattingApplied = true;
+				}
+			}	
+		}
 		private void comboBoxGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string condition = queries[1].Condition;
