@@ -48,6 +48,7 @@
 			this.tabPageTeachers = new System.Windows.Forms.TabPage();
 			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
 			this.buttonGroupsInsert = new System.Windows.Forms.Button();
+			this.buttonStudentsInsert = new System.Windows.Forms.Button();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
@@ -95,6 +96,7 @@
 			// 
 			// tabPageStudents
 			// 
+			this.tabPageStudents.Controls.Add(this.buttonStudentsInsert);
 			this.tabPageStudents.Controls.Add(this.comboBoxStudentsGroup);
 			this.tabPageStudents.Controls.Add(this.labelStudentsGroup);
 			this.tabPageStudents.Controls.Add(this.labelStudentsDirection);
@@ -156,6 +158,7 @@
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
 			this.dataGridViewStudents.Size = new System.Drawing.Size(792, 362);
 			this.dataGridViewStudents.TabIndex = 0;
+			this.dataGridViewStudents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellDoubleClick);
 			// 
 			// tabPageGroups
 			// 
@@ -276,6 +279,16 @@
 			this.buttonGroupsInsert.UseVisualStyleBackColor = true;
 			this.buttonGroupsInsert.Click += new System.EventHandler(this.buttonGroupsInsert_Click);
 			// 
+			// buttonStudentsInsert
+			// 
+			this.buttonStudentsInsert.Location = new System.Drawing.Point(709, 8);
+			this.buttonStudentsInsert.Name = "buttonStudentsInsert";
+			this.buttonStudentsInsert.Size = new System.Drawing.Size(75, 23);
+			this.buttonStudentsInsert.TabIndex = 5;
+			this.buttonStudentsInsert.Text = "Insert";
+			this.buttonStudentsInsert.UseVisualStyleBackColor = true;
+			this.buttonStudentsInsert.Click += new System.EventHandler(this.buttonStudentsInsert_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,6 +340,7 @@
 		private System.Windows.Forms.ComboBox comboBoxStudentsDirection;
 		private System.Windows.Forms.ComboBox comboBoxStudentsGroup;
 		private System.Windows.Forms.Button buttonGroupsInsert;
+		private System.Windows.Forms.Button buttonStudentsInsert;
 	}
 }
 

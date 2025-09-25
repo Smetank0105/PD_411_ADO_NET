@@ -165,7 +165,6 @@ namespace Academy
 				else
 					MessageBox.Show("Обновить запись не удалось!");
 			}
-			comboBoxGroupsDirection_SelectedIndexChanged(sender, e);
 		}
 
 		private void buttonGroupsInsert_Click(object sender, EventArgs e)
@@ -183,7 +182,42 @@ namespace Academy
 				MessageBox.Show("Запись успешна.");
 			else
 				MessageBox.Show("Произвести запись не удалось!");
-			comboBoxGroupsDirection_SelectedIndexChanged(sender, e);
+		}
+
+		private void dataGridViewStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewStudents.Rows[e.RowIndex];
+				StudentForm studentForm = new StudentForm(this);
+				int result = 0;
+				studentForm.stud_id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				Console.WriteLine(studentForm.stud_id);
+				studentForm.LoadStudentData();
+				if (studentForm.ShowDialog() == DialogResult.OK)
+					result = studentForm.connector.Update(studentForm.UploadStudentData(), $"stud_id={studentForm.stud_id}");
+				if (result > 0)
+					MessageBox.Show("Запись обновлена.");
+				else
+					MessageBox.Show("Обновить запись не удалось!");
+			}
+		}
+
+		private void buttonStudentsInsert_Click(object sender, EventArgs e)
+		{
+			StudentForm studentForm = new StudentForm(this);
+			int result = 0;
+			string cmd = "";
+			if (studentForm.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(studentForm.connector.Scalar("SELECT MAX(stud_id) FROM Students")) + 1).ToString() + ",";
+				cmd += studentForm.UploadStudentData();
+				result = studentForm.connector.Insert(cmd);
+			}
+			if (result > 0)
+				MessageBox.Show("Запись успешна.");
+			else
+				MessageBox.Show("Произвести запись не удалось!");
 		}
 	}
 }

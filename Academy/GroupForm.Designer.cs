@@ -86,14 +86,6 @@
 			// comboBoxGroup_direction
 			// 
 			this.comboBoxGroup_direction.FormattingEnabled = true;
-			this.comboBoxGroup_direction.Items.AddRange(new object[] {
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"});
 			this.comboBoxGroup_direction.Location = new System.Drawing.Point(130, 56);
 			this.comboBoxGroup_direction.Name = "comboBoxGroup_direction";
 			this.comboBoxGroup_direction.Size = new System.Drawing.Size(121, 21);
