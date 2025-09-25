@@ -64,7 +64,7 @@ namespace MySqlLibrary
 			string condition = "";
 			for (int j = 0, i = values_for_check.Length == _columns.Rows.Count ? 0 : 1; i < _columns.Rows.Count; j++, i++)
 			{
-				fields_name[i] = _columns.Rows[i]["COLUMN_NAME"].ToString();
+				fields_name[i] = $"[{_columns.Rows[i]["COLUMN_NAME"].ToString()}]";
 				if(i > 0)
 					condition += $" {fields_name[i]} = {values_for_check[j]} AND";
 			}
@@ -85,7 +85,7 @@ namespace MySqlLibrary
 			for (int i = 0; i < values_for_check.Length; i++)
 			{
 				if (string.IsNullOrWhiteSpace(values_for_check[i])) continue;
-				set_values += $" {_columns.Rows[i + 1]["COLUMN_NAME"].ToString()} = {values_for_check[i]},";
+				set_values += $" [{_columns.Rows[i + 1]["COLUMN_NAME"].ToString()}] = {values_for_check[i]},";
 			}
 			set_values = set_values.Remove(set_values.Length - 1);
 			string cmd = $"UPDATE {_table_name} SET {set_values} WHERE {condition};";
