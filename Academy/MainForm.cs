@@ -29,7 +29,7 @@ namespace Academy
 			),
 			new Query
 			(
-			"group_id, group_name,direction_name",
+			"group_id, group_name,learning_days,start_time,direction_name",
 			"Groups,Directions",
 			"direction=direction_id"
 			),
@@ -66,6 +66,7 @@ namespace Academy
 			string tableName = tabControl.TabPages[i].Name.Remove(0,"tabPage".Length);
 			DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
 			dataGridView.DataSource = Select(queries[i].Fileds, queries[i].Tables, queries[i].Condition);
+			if (i == 1) ConvertLearningDays();
 		}
 		DataTable Select(string fields, string tables, string condition="")
 		{
@@ -92,6 +93,13 @@ namespace Academy
 			reader.Close();
 			connection.Close();
 			return table;
+		}
+		void ConvertLearningDays()
+		{
+			for(int i = 0; i < dataGridViewGroups.RowCount; i++)
+			{
+				dataGridViewGroups.Rows[i].Cells["learning_days"].Value = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["learning_days"].Value));
+			}
 		}
 		Dictionary<string,int> LoadDataToComboBox(string fields, string tables)
 		{
