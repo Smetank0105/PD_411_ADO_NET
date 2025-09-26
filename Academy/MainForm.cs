@@ -57,7 +57,6 @@ namespace Academy
 			comboBoxStudentsDirection.Items.AddRange(d_groupDirection.Keys.ToArray());
 			comboBoxGroupsDirection.SelectedIndex = 0;
 			comboBoxStudentsDirection.SelectedIndex = 0;
-			//tabControl.SelectedIndex = 2;
 			for(int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}",true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
 			for (int i = 0; i < tabControl.TabCount; i++)
