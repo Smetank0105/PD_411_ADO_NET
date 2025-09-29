@@ -92,7 +92,7 @@ namespace MySqlLibrary
 			}
 			set_values = set_values.Remove(set_values.Length - 1);
 			string cmd = $"UPDATE {_table_name} SET {set_values} WHERE {condition};";
-			//Console.WriteLine(cmd);
+			Console.WriteLine(cmd);
 			SqlCommand command = new SqlCommand(cmd, _connection);
 			_connection.Open();
 			int result = command.ExecuteNonQuery();

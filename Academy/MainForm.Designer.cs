@@ -32,12 +32,14 @@
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
+			this.buttonStudentsInsert = new System.Windows.Forms.Button();
 			this.comboBoxStudentsGroup = new System.Windows.Forms.ComboBox();
 			this.labelStudentsGroup = new System.Windows.Forms.Label();
 			this.labelStudentsDirection = new System.Windows.Forms.Label();
 			this.comboBoxStudentsDirection = new System.Windows.Forms.ComboBox();
 			this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
+			this.buttonGroupsInsert = new System.Windows.Forms.Button();
 			this.comboBoxGroupsDirection = new System.Windows.Forms.ComboBox();
 			this.labelGroupsDirection = new System.Windows.Forms.Label();
 			this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
@@ -47,8 +49,7 @@
 			this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
 			this.tabPageTeachers = new System.Windows.Forms.TabPage();
 			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
-			this.buttonGroupsInsert = new System.Windows.Forms.Button();
-			this.buttonStudentsInsert = new System.Windows.Forms.Button();
+			this.buttonTeachers_insert = new System.Windows.Forms.Button();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
@@ -109,6 +110,16 @@
 			this.tabPageStudents.TabIndex = 0;
 			this.tabPageStudents.Text = "Students";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
+			// 
+			// buttonStudentsInsert
+			// 
+			this.buttonStudentsInsert.Location = new System.Drawing.Point(709, 8);
+			this.buttonStudentsInsert.Name = "buttonStudentsInsert";
+			this.buttonStudentsInsert.Size = new System.Drawing.Size(75, 23);
+			this.buttonStudentsInsert.TabIndex = 5;
+			this.buttonStudentsInsert.Text = "Insert";
+			this.buttonStudentsInsert.UseVisualStyleBackColor = true;
+			this.buttonStudentsInsert.Click += new System.EventHandler(this.buttonStudentsInsert_Click);
 			// 
 			// comboBoxStudentsGroup
 			// 
@@ -173,6 +184,16 @@
 			this.tabPageGroups.TabIndex = 1;
 			this.tabPageGroups.Text = "Groups";
 			this.tabPageGroups.UseVisualStyleBackColor = true;
+			// 
+			// buttonGroupsInsert
+			// 
+			this.buttonGroupsInsert.Location = new System.Drawing.Point(709, 5);
+			this.buttonGroupsInsert.Name = "buttonGroupsInsert";
+			this.buttonGroupsInsert.Size = new System.Drawing.Size(75, 23);
+			this.buttonGroupsInsert.TabIndex = 3;
+			this.buttonGroupsInsert.Text = "Insert";
+			this.buttonGroupsInsert.UseVisualStyleBackColor = true;
+			this.buttonGroupsInsert.Click += new System.EventHandler(this.buttonGroupsInsert_Click);
 			// 
 			// comboBoxGroupsDirection
 			// 
@@ -250,6 +271,7 @@
 			// 
 			// tabPageTeachers
 			// 
+			this.tabPageTeachers.Controls.Add(this.buttonTeachers_insert);
 			this.tabPageTeachers.Controls.Add(this.dataGridViewTeachers);
 			this.tabPageTeachers.Location = new System.Drawing.Point(4, 22);
 			this.tabPageTeachers.Name = "tabPageTeachers";
@@ -264,30 +286,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewTeachers.Location = new System.Drawing.Point(0, 43);
+			this.dataGridViewTeachers.Location = new System.Drawing.Point(0, 32);
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
-			this.dataGridViewTeachers.Size = new System.Drawing.Size(792, 360);
+			this.dataGridViewTeachers.Size = new System.Drawing.Size(792, 371);
 			this.dataGridViewTeachers.TabIndex = 0;
+			this.dataGridViewTeachers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTeachers_CellDoubleClick);
 			// 
-			// buttonGroupsInsert
+			// buttonTeachers_insert
 			// 
-			this.buttonGroupsInsert.Location = new System.Drawing.Point(709, 5);
-			this.buttonGroupsInsert.Name = "buttonGroupsInsert";
-			this.buttonGroupsInsert.Size = new System.Drawing.Size(75, 23);
-			this.buttonGroupsInsert.TabIndex = 3;
-			this.buttonGroupsInsert.Text = "Insert";
-			this.buttonGroupsInsert.UseVisualStyleBackColor = true;
-			this.buttonGroupsInsert.Click += new System.EventHandler(this.buttonGroupsInsert_Click);
-			// 
-			// buttonStudentsInsert
-			// 
-			this.buttonStudentsInsert.Location = new System.Drawing.Point(709, 8);
-			this.buttonStudentsInsert.Name = "buttonStudentsInsert";
-			this.buttonStudentsInsert.Size = new System.Drawing.Size(75, 23);
-			this.buttonStudentsInsert.TabIndex = 5;
-			this.buttonStudentsInsert.Text = "Insert";
-			this.buttonStudentsInsert.UseVisualStyleBackColor = true;
-			this.buttonStudentsInsert.Click += new System.EventHandler(this.buttonStudentsInsert_Click);
+			this.buttonTeachers_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonTeachers_insert.Name = "buttonTeachers_insert";
+			this.buttonTeachers_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonTeachers_insert.TabIndex = 1;
+			this.buttonTeachers_insert.Text = "Insert";
+			this.buttonTeachers_insert.UseVisualStyleBackColor = true;
+			this.buttonTeachers_insert.Click += new System.EventHandler(this.buttonTeachers_insert_Click);
 			// 
 			// MainForm
 			// 
@@ -341,6 +354,7 @@
 		private System.Windows.Forms.ComboBox comboBoxStudentsGroup;
 		private System.Windows.Forms.Button buttonGroupsInsert;
 		private System.Windows.Forms.Button buttonStudentsInsert;
+		private System.Windows.Forms.Button buttonTeachers_insert;
 	}
 }
 

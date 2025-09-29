@@ -213,7 +213,6 @@ namespace Academy
 				StudentForm studentForm = new StudentForm(this);
 				int result = 0;
 				studentForm.stud_id = Convert.ToInt32(selectedRow.Cells[0].Value);
-				Console.WriteLine(studentForm.stud_id);
 				studentForm.LoadStudentData();
 				if (studentForm.ShowDialog() == DialogResult.OK)
 					result = studentForm.connector.Update(studentForm.UploadStudentData(), $"stud_id={studentForm.stud_id}");
@@ -234,6 +233,41 @@ namespace Academy
 				cmd += (Convert.ToInt32(studentForm.connector.Scalar("SELECT MAX(stud_id) FROM Students")) + 1).ToString() + ",";
 				cmd += studentForm.UploadStudentData();
 				result = studentForm.connector.Insert(cmd);
+			}
+			if (result > 0)
+				MessageBox.Show("Запись успешна.");
+			else
+				MessageBox.Show("Произвести запись не удалось!");
+		}
+
+		private void dataGridViewTeachers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewTeachers.Rows[e.RowIndex];
+				TeacherForm teacherForm = new TeacherForm(this);
+				int result = 0;
+				teacherForm.teacher_id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				teacherForm.LoadTeacherData();
+				if (teacherForm.ShowDialog() == DialogResult.OK)
+					result = teacherForm.connector.Update(teacherForm.UploadTeacherData(), $"teacher_id={teacherForm.teacher_id}");
+				if (result > 0)
+					MessageBox.Show("Запись обновлена.");
+				else
+					MessageBox.Show("Обновить запись не удалось!");
+			}
+		}
+
+		private void buttonTeachers_insert_Click(object sender, EventArgs e)
+		{
+			TeacherForm teacherForm = new TeacherForm(this);
+			int result = 0;
+			string cmd = "";
+			if (teacherForm.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(teacherForm.connector.Scalar("SELECT MAX(teacher_id) FROM Teachers")) + 1).ToString() + ",";
+				cmd += teacherForm.UploadTeacherData();
+				result = teacherForm.connector.Insert(cmd);
 			}
 			if (result > 0)
 				MessageBox.Show("Запись успешна.");
