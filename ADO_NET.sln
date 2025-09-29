@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySqlLibrary", "MySqlLibrary\MySqlLibrary.csproj", "{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSet", "DataSet\DataSet.csproj", "{80A1CD42-7480-41C9-8B7A-506C4C3DAEE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B4EA4E2-4CAF-4DED-B4E3-715C7ED58213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A1CD42-7480-41C9-8B7A-506C4C3DAEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A1CD42-7480-41C9-8B7A-506C4C3DAEE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A1CD42-7480-41C9-8B7A-506C4C3DAEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A1CD42-7480-41C9-8B7A-506C4C3DAEE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
