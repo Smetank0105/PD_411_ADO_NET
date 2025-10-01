@@ -211,7 +211,7 @@ namespace Academy
 				DataTable dataDisciplines = DisciplinesRelatedData.Tables["Disciplines"].Clone();
 				foreach (DataRow dr in pjtRow)
 				{
-					Console.WriteLine($"{dr["discipline"]}\t{dr["direction"]}");
+					//Console.WriteLine($"{dr["discipline"]}\t{dr["direction"]}");
 					dataDisciplines.ImportRow(DisciplinesRelatedData.Tables["Disciplines"].Rows.Find(dr["discipline"]));
 				}
 				dataGridViewDisciplines.DataSource = dataDisciplines;
