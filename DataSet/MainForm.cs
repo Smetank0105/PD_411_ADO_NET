@@ -29,11 +29,11 @@ namespace DataSet
 
 			//2) Добавляем таблицы в DataSet
 			const string dsTable_Directions = "Directions";
-			const string dstDirections_col_direction_id = "direction_id";
-			const string dstDirections_col_direction_name = "direction_name";
 			GroupsRelatedData.Tables.Add(dsTable_Directions);
 
 			//3) Добавляем поля в таблицу
+			const string dstDirections_col_direction_id = "direction_id";
+			const string dstDirections_col_direction_name = "direction_name";
 			GroupsRelatedData.Tables[dsTable_Directions].Columns.Add(dstDirections_col_direction_id);
 			GroupsRelatedData.Tables[dsTable_Directions].Columns.Add(dstDirections_col_direction_name);
 
@@ -41,13 +41,13 @@ namespace DataSet
 			GroupsRelatedData.Tables[dsTable_Directions].PrimaryKey = new DataColumn[] { GroupsRelatedData.Tables[dsTable_Directions].Columns[dstDirections_col_direction_id] };
 
 			const string dsTable_Groups = "Groups";
+			GroupsRelatedData.Tables.Add(dsTable_Groups);
+
 			const string dstGroups_col_group_id = "group_id";
 			const string dstGroups_col_group_name = "group_name";
 			const string dstGroups_col_direction = "direction";
 			const string dstGroups_col_learning_days = "learning_days";
 			const string dstGroups_col_start_time = "start_time";
-			GroupsRelatedData.Tables.Add(dsTable_Groups);
-
 			GroupsRelatedData.Tables[dsTable_Groups].Columns.Add(dstGroups_col_group_id);
 			GroupsRelatedData.Tables[dsTable_Groups].Columns.Add(dstGroups_col_group_name);
 			GroupsRelatedData.Tables[dsTable_Groups].Columns.Add(dstGroups_col_direction);
