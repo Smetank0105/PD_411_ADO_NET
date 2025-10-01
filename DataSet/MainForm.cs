@@ -87,10 +87,58 @@ namespace DataSet
 				Console.WriteLine();
 			}
 
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			DataTable comboTableDirection = GroupsRelatedData.Tables[dsTable_Directions].Clone();
+			DataRow row_direction_all = comboTableDirection.NewRow();
+			row_direction_all[dstDirections_col_direction_id] = 0;
+			row_direction_all[dstDirections_col_direction_name] = "Все";
+			comboTableDirection.Rows.Add(row_direction_all);
+			foreach (DataRow dr in GroupsRelatedData.Tables[dsTable_Directions].Rows)
+				comboTableDirection.ImportRow(dr);
+
+			comboBoxDirection.DataSource = comboTableDirection;
+			comboBoxDirection.DisplayMember = dstDirections_col_direction_name;
+			comboBoxDirection.ValueMember = dstDirections_col_direction_id;
+			comboBoxDirection.SelectedIndex = 0;
 		}
 		[DllImport("kernel32.dll")]
 		private static extern bool AllocConsole();
 		[DllImport("kernel32.dll")]
 		private static extern bool FreeConsole();
+
+		private void comboBoxDirection_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			DataTable comboTableGroup = GroupsRelatedData.Tables["Groups"].Clone();
+			DataView comboTableGroupView = new DataView(comboTableGroup);
+			if (comboBoxDirection.SelectedIndex == 0)
+				comboTableGroupView.RowFilter = "";
+			else
+				comboTableGroupView.RowFilter = $"direction = {comboBoxDirection.SelectedValue}";
+
+			DataRow row_group_all = comboTableGroup.NewRow();
+			row_group_all["group_id"] = 0;
+			row_group_all["direction"] = comboBoxDirection.SelectedValue;
+			row_group_all["group_name"] = "Все";
+			comboTableGroup.Rows.Add(row_group_all);
+			foreach(DataRow dr in GroupsRelatedData.Tables["Groups"].Rows)
+				comboTableGroup.ImportRow(dr);
+
+			comboBoxGroup.DataSource = comboTableGroupView;
+			comboBoxGroup.DisplayMember = "group_name";
+			comboBoxGroup.ValueMember = "group_id";
+			comboBoxGroup.SelectedIndex = 0;
+		}
+
+		private void comboBoxGroup_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			DataView groupView = new DataView(GroupsRelatedData.Tables["Groups"]);
+			if (comboBoxGroup.SelectedIndex == 0 && comboBoxDirection.SelectedIndex == 0)
+				groupView.RowFilter = "";
+			else if (comboBoxGroup.SelectedIndex == 0)
+				groupView.RowFilter = $"direction = {comboBoxDirection.SelectedValue}";
+			else
+				groupView.RowFilter = $"group_id = {comboBoxGroup.SelectedValue}";
+			dataGridViewGroups.DataSource = groupView;
+		}
 	}
 }
