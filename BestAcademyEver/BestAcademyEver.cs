@@ -42,6 +42,15 @@ namespace BestAcademyEver
 				"Teachers"
 			)
 		};
+		readonly string[] statusBarMessage = new string[]
+		{
+			"Колличество студентов",
+			"Колличество групп",
+			"Колличество направлений",
+			"Колличество дисциплин",
+			"Колличество преподавателей"
+		};
+
 		public BestAcademyEver()
 		{
 			InitializeComponent();
@@ -50,6 +59,9 @@ namespace BestAcademyEver
 			FillDataSet();
 			FillAllComboBox();
 			dataGridViewDirections.DataSource = cache.GetDataTable(queries[2].Tables);
+			dataGridViewTeachers.DataSource = MyConnector.Select(connectionString, $"SELECT {queries[4].Fileds} FROM {queries[4].Tables}");
+			for(int i =0; i <tabControl.TabCount; i++)
+				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
 		}
 		//FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS//
 		private void FillDataSet()
@@ -102,10 +114,21 @@ namespace BestAcademyEver
 			}
 			return table;
 		}
+		void ConvertLearningDays()
+		{
+			for (int i = 0; i < dataGridViewGroups.RowCount; i++)
+			{
+				dataGridViewGroups.Rows[i].Cells["Учебные дни"].Value = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["Учебные дни"].Value));
+			}
+		}
 		//CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE//
 		[DllImport("Kernel32.dll")]
 		static extern void AllocConsole();
 		//EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS//
+		private void dataGridViewChanged(object sender, EventArgs e)
+		{
+			toolStripStatusLabel.Text = $"{statusBarMessage[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
+		}
 		private void comboBoxStudents_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = "SELECT group_id, group_name FROM Groups";
@@ -129,25 +152,18 @@ namespace BestAcademyEver
 			if ((sender as ComboBox).SelectedIndex != 0)
 				cmd += $" AND direction = {(sender as ComboBox).SelectedValue}";
 			dataGridViewGroups.DataSource = MyConnector.Select(connectionString, cmd);
+			ConvertLearningDays();
 		}
 
 		private void comboBoxDisciplines_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if ((sender as ComboBox).SelectedIndex != 0)
 			{
-				DataRow rowDirection = cache.GetDataTable("Directions").Rows.Find((sender as ComboBox).SelectedValue);
-				if (rowDirection != null)
-				{
-					DataRow[] rows = rowDirection.GetChildRows("DirectionsToDDR");
-					DataTable table = cache.GetDataTable("Disciplines").Clone();
-					foreach (DataRow row in rows)
-					{
-						table.ImportRow(cache.GetDataTable("Disciplines").Rows.Find(row["discipline"]));
-					}
-					dataGridViewDisciplines.DataSource = table;
-				}
-				else
-					dataGridViewDisciplines.DataSource = null;
+				DataRow[] rows = cache.GetDataTable("Directions").Rows.Find((sender as ComboBox).SelectedValue).GetChildRows("DirectionsToDDR");
+				DataTable table = cache.GetDataTable("Disciplines").Clone();
+				foreach (DataRow row in rows)
+					table.ImportRow(cache.GetDataTable("Disciplines").Rows.Find(row["discipline"]));
+				dataGridViewDisciplines.DataSource = table;
 			}
 			else
 				dataGridViewDisciplines.DataSource = cache.GetDataTable("Disciplines");

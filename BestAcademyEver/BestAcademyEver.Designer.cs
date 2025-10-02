@@ -30,30 +30,30 @@
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
+			this.buttonStudents_insert = new System.Windows.Forms.Button();
+			this.comboBoxStudents_forGroups = new System.Windows.Forms.ComboBox();
+			this.labelStudents_Group = new System.Windows.Forms.Label();
+			this.comboBoxStudents_forDirections = new System.Windows.Forms.ComboBox();
+			this.labelStudents_Direction = new System.Windows.Forms.Label();
 			this.dataGridViewStudents = new System.Windows.Forms.DataGridView();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
+			this.buttonGroups_insert = new System.Windows.Forms.Button();
+			this.comboBoxGroups_forDirections = new System.Windows.Forms.ComboBox();
+			this.labelGroups_Direction = new System.Windows.Forms.Label();
 			this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
 			this.tabPageDirections = new System.Windows.Forms.TabPage();
+			this.buttonDirection_insert = new System.Windows.Forms.Button();
 			this.dataGridViewDirections = new System.Windows.Forms.DataGridView();
 			this.tabPageDisciplines = new System.Windows.Forms.TabPage();
+			this.buttonDisciplines_insert = new System.Windows.Forms.Button();
+			this.comboBoxDisciplines_forDirections = new System.Windows.Forms.ComboBox();
+			this.labelDisciplines_Direction = new System.Windows.Forms.Label();
 			this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
 			this.tabPageTeachers = new System.Windows.Forms.TabPage();
+			this.buttonTeachers_insert = new System.Windows.Forms.Button();
 			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.labelStudents_Direction = new System.Windows.Forms.Label();
-			this.comboBoxStudents_forDirections = new System.Windows.Forms.ComboBox();
-			this.labelStudents_Group = new System.Windows.Forms.Label();
-			this.comboBoxStudents_forGroups = new System.Windows.Forms.ComboBox();
-			this.buttonStudents_insert = new System.Windows.Forms.Button();
-			this.labelGroups_Direction = new System.Windows.Forms.Label();
-			this.comboBoxGroups_forDirections = new System.Windows.Forms.ComboBox();
-			this.buttonGroups_insert = new System.Windows.Forms.Button();
-			this.labelDisciplines_Direction = new System.Windows.Forms.Label();
-			this.comboBoxDisciplines_forDirections = new System.Windows.Forms.ComboBox();
-			this.buttonDisciplines_insert = new System.Windows.Forms.Button();
-			this.buttonDirection_insert = new System.Windows.Forms.Button();
-			this.buttonTeachers_insert = new System.Windows.Forms.Button();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -98,6 +98,53 @@
 			this.tabPageStudents.Text = "Students";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
 			// 
+			// buttonStudents_insert
+			// 
+			this.buttonStudents_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonStudents_insert.Name = "buttonStudents_insert";
+			this.buttonStudents_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonStudents_insert.TabIndex = 5;
+			this.buttonStudents_insert.Text = "Insert";
+			this.buttonStudents_insert.UseVisualStyleBackColor = true;
+			// 
+			// comboBoxStudents_forGroups
+			// 
+			this.comboBoxStudents_forGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxStudents_forGroups.FormattingEnabled = true;
+			this.comboBoxStudents_forGroups.Location = new System.Drawing.Point(446, 4);
+			this.comboBoxStudents_forGroups.Name = "comboBoxStudents_forGroups";
+			this.comboBoxStudents_forGroups.Size = new System.Drawing.Size(156, 21);
+			this.comboBoxStudents_forGroups.TabIndex = 4;
+			this.comboBoxStudents_forGroups.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudents_forGroups_SelectedIndexChanged);
+			// 
+			// labelStudents_Group
+			// 
+			this.labelStudents_Group.AutoSize = true;
+			this.labelStudents_Group.Location = new System.Drawing.Point(397, 8);
+			this.labelStudents_Group.Name = "labelStudents_Group";
+			this.labelStudents_Group.Size = new System.Drawing.Size(42, 13);
+			this.labelStudents_Group.TabIndex = 3;
+			this.labelStudents_Group.Text = "Группа";
+			// 
+			// comboBoxStudents_forDirections
+			// 
+			this.comboBoxStudents_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxStudents_forDirections.FormattingEnabled = true;
+			this.comboBoxStudents_forDirections.Location = new System.Drawing.Point(87, 4);
+			this.comboBoxStudents_forDirections.Name = "comboBoxStudents_forDirections";
+			this.comboBoxStudents_forDirections.Size = new System.Drawing.Size(304, 21);
+			this.comboBoxStudents_forDirections.TabIndex = 2;
+			this.comboBoxStudents_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudents_forDirections_SelectedIndexChanged);
+			// 
+			// labelStudents_Direction
+			// 
+			this.labelStudents_Direction.AutoSize = true;
+			this.labelStudents_Direction.Location = new System.Drawing.Point(6, 8);
+			this.labelStudents_Direction.Name = "labelStudents_Direction";
+			this.labelStudents_Direction.Size = new System.Drawing.Size(75, 13);
+			this.labelStudents_Direction.TabIndex = 1;
+			this.labelStudents_Direction.Text = "Направление";
+			// 
 			// dataGridViewStudents
 			// 
 			this.dataGridViewStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -124,6 +171,34 @@
 			this.tabPageGroups.Text = "Groups";
 			this.tabPageGroups.UseVisualStyleBackColor = true;
 			// 
+			// buttonGroups_insert
+			// 
+			this.buttonGroups_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonGroups_insert.Name = "buttonGroups_insert";
+			this.buttonGroups_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonGroups_insert.TabIndex = 3;
+			this.buttonGroups_insert.Text = "Insert";
+			this.buttonGroups_insert.UseVisualStyleBackColor = true;
+			// 
+			// comboBoxGroups_forDirections
+			// 
+			this.comboBoxGroups_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxGroups_forDirections.FormattingEnabled = true;
+			this.comboBoxGroups_forDirections.Location = new System.Drawing.Point(88, 4);
+			this.comboBoxGroups_forDirections.Name = "comboBoxGroups_forDirections";
+			this.comboBoxGroups_forDirections.Size = new System.Drawing.Size(304, 21);
+			this.comboBoxGroups_forDirections.TabIndex = 2;
+			this.comboBoxGroups_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxGroups_forDirections_SelectedIndexChanged);
+			// 
+			// labelGroups_Direction
+			// 
+			this.labelGroups_Direction.AutoSize = true;
+			this.labelGroups_Direction.Location = new System.Drawing.Point(6, 8);
+			this.labelGroups_Direction.Name = "labelGroups_Direction";
+			this.labelGroups_Direction.Size = new System.Drawing.Size(75, 13);
+			this.labelGroups_Direction.TabIndex = 1;
+			this.labelGroups_Direction.Text = "Направление";
+			// 
 			// dataGridViewGroups
 			// 
 			this.dataGridViewGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -144,6 +219,15 @@
 			this.tabPageDirections.TabIndex = 2;
 			this.tabPageDirections.Text = "Directions";
 			this.tabPageDirections.UseVisualStyleBackColor = true;
+			// 
+			// buttonDirection_insert
+			// 
+			this.buttonDirection_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonDirection_insert.Name = "buttonDirection_insert";
+			this.buttonDirection_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonDirection_insert.TabIndex = 1;
+			this.buttonDirection_insert.Text = "Insert";
+			this.buttonDirection_insert.UseVisualStyleBackColor = true;
 			// 
 			// dataGridViewDirections
 			// 
@@ -171,6 +255,34 @@
 			this.tabPageDisciplines.Text = "Disciplines";
 			this.tabPageDisciplines.UseVisualStyleBackColor = true;
 			// 
+			// buttonDisciplines_insert
+			// 
+			this.buttonDisciplines_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonDisciplines_insert.Name = "buttonDisciplines_insert";
+			this.buttonDisciplines_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonDisciplines_insert.TabIndex = 3;
+			this.buttonDisciplines_insert.Text = "Insert";
+			this.buttonDisciplines_insert.UseVisualStyleBackColor = true;
+			// 
+			// comboBoxDisciplines_forDirections
+			// 
+			this.comboBoxDisciplines_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxDisciplines_forDirections.FormattingEnabled = true;
+			this.comboBoxDisciplines_forDirections.Location = new System.Drawing.Point(87, 4);
+			this.comboBoxDisciplines_forDirections.Name = "comboBoxDisciplines_forDirections";
+			this.comboBoxDisciplines_forDirections.Size = new System.Drawing.Size(304, 21);
+			this.comboBoxDisciplines_forDirections.TabIndex = 2;
+			this.comboBoxDisciplines_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxDisciplines_forDirections_SelectedIndexChanged);
+			// 
+			// labelDisciplines_Direction
+			// 
+			this.labelDisciplines_Direction.AutoSize = true;
+			this.labelDisciplines_Direction.Location = new System.Drawing.Point(6, 8);
+			this.labelDisciplines_Direction.Name = "labelDisciplines_Direction";
+			this.labelDisciplines_Direction.Size = new System.Drawing.Size(75, 13);
+			this.labelDisciplines_Direction.TabIndex = 1;
+			this.labelDisciplines_Direction.Text = "Направление";
+			// 
 			// dataGridViewDisciplines
 			// 
 			this.dataGridViewDisciplines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -191,8 +303,18 @@
 			this.tabPageTeachers.Text = "Teachers";
 			this.tabPageTeachers.UseVisualStyleBackColor = true;
 			// 
+			// buttonTeachers_insert
+			// 
+			this.buttonTeachers_insert.Location = new System.Drawing.Point(709, 3);
+			this.buttonTeachers_insert.Name = "buttonTeachers_insert";
+			this.buttonTeachers_insert.Size = new System.Drawing.Size(75, 23);
+			this.buttonTeachers_insert.TabIndex = 1;
+			this.buttonTeachers_insert.Text = "insert";
+			this.buttonTeachers_insert.UseVisualStyleBackColor = true;
+			// 
 			// dataGridViewTeachers
 			// 
+			this.dataGridViewTeachers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewTeachers.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
@@ -214,127 +336,6 @@
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(112, 17);
 			this.toolStripStatusLabel.Text = "toolStripStatusLabel";
-			// 
-			// labelStudents_Direction
-			// 
-			this.labelStudents_Direction.AutoSize = true;
-			this.labelStudents_Direction.Location = new System.Drawing.Point(6, 8);
-			this.labelStudents_Direction.Name = "labelStudents_Direction";
-			this.labelStudents_Direction.Size = new System.Drawing.Size(75, 13);
-			this.labelStudents_Direction.TabIndex = 1;
-			this.labelStudents_Direction.Text = "Направление";
-			// 
-			// comboBoxStudents_forDirections
-			// 
-			this.comboBoxStudents_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxStudents_forDirections.FormattingEnabled = true;
-			this.comboBoxStudents_forDirections.Location = new System.Drawing.Point(87, 4);
-			this.comboBoxStudents_forDirections.Name = "comboBoxStudents_forDirections";
-			this.comboBoxStudents_forDirections.Size = new System.Drawing.Size(304, 21);
-			this.comboBoxStudents_forDirections.TabIndex = 2;
-			this.comboBoxStudents_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudents_forDirections_SelectedIndexChanged);
-			// 
-			// labelStudents_Group
-			// 
-			this.labelStudents_Group.AutoSize = true;
-			this.labelStudents_Group.Location = new System.Drawing.Point(397, 8);
-			this.labelStudents_Group.Name = "labelStudents_Group";
-			this.labelStudents_Group.Size = new System.Drawing.Size(42, 13);
-			this.labelStudents_Group.TabIndex = 3;
-			this.labelStudents_Group.Text = "Группа";
-			// 
-			// comboBoxStudents_forGroups
-			// 
-			this.comboBoxStudents_forGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxStudents_forGroups.FormattingEnabled = true;
-			this.comboBoxStudents_forGroups.Location = new System.Drawing.Point(446, 4);
-			this.comboBoxStudents_forGroups.Name = "comboBoxStudents_forGroups";
-			this.comboBoxStudents_forGroups.Size = new System.Drawing.Size(156, 21);
-			this.comboBoxStudents_forGroups.TabIndex = 4;
-			this.comboBoxStudents_forGroups.SelectedIndexChanged += new System.EventHandler(this.comboBoxStudents_forGroups_SelectedIndexChanged);
-			// 
-			// buttonStudents_insert
-			// 
-			this.buttonStudents_insert.Location = new System.Drawing.Point(709, 3);
-			this.buttonStudents_insert.Name = "buttonStudents_insert";
-			this.buttonStudents_insert.Size = new System.Drawing.Size(75, 23);
-			this.buttonStudents_insert.TabIndex = 5;
-			this.buttonStudents_insert.Text = "Insert";
-			this.buttonStudents_insert.UseVisualStyleBackColor = true;
-			// 
-			// labelGroups_Direction
-			// 
-			this.labelGroups_Direction.AutoSize = true;
-			this.labelGroups_Direction.Location = new System.Drawing.Point(6, 8);
-			this.labelGroups_Direction.Name = "labelGroups_Direction";
-			this.labelGroups_Direction.Size = new System.Drawing.Size(75, 13);
-			this.labelGroups_Direction.TabIndex = 1;
-			this.labelGroups_Direction.Text = "Направление";
-			// 
-			// comboBoxGroups_forDirections
-			// 
-			this.comboBoxGroups_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxGroups_forDirections.FormattingEnabled = true;
-			this.comboBoxGroups_forDirections.Location = new System.Drawing.Point(88, 4);
-			this.comboBoxGroups_forDirections.Name = "comboBoxGroups_forDirections";
-			this.comboBoxGroups_forDirections.Size = new System.Drawing.Size(304, 21);
-			this.comboBoxGroups_forDirections.TabIndex = 2;
-			this.comboBoxGroups_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxGroups_forDirections_SelectedIndexChanged);
-			// 
-			// buttonGroups_insert
-			// 
-			this.buttonGroups_insert.Location = new System.Drawing.Point(709, 3);
-			this.buttonGroups_insert.Name = "buttonGroups_insert";
-			this.buttonGroups_insert.Size = new System.Drawing.Size(75, 23);
-			this.buttonGroups_insert.TabIndex = 3;
-			this.buttonGroups_insert.Text = "Insert";
-			this.buttonGroups_insert.UseVisualStyleBackColor = true;
-			// 
-			// labelDisciplines_Direction
-			// 
-			this.labelDisciplines_Direction.AutoSize = true;
-			this.labelDisciplines_Direction.Location = new System.Drawing.Point(6, 8);
-			this.labelDisciplines_Direction.Name = "labelDisciplines_Direction";
-			this.labelDisciplines_Direction.Size = new System.Drawing.Size(75, 13);
-			this.labelDisciplines_Direction.TabIndex = 1;
-			this.labelDisciplines_Direction.Text = "Направление";
-			// 
-			// comboBoxDisciplines_forDirections
-			// 
-			this.comboBoxDisciplines_forDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxDisciplines_forDirections.FormattingEnabled = true;
-			this.comboBoxDisciplines_forDirections.Location = new System.Drawing.Point(87, 4);
-			this.comboBoxDisciplines_forDirections.Name = "comboBoxDisciplines_forDirections";
-			this.comboBoxDisciplines_forDirections.Size = new System.Drawing.Size(304, 21);
-			this.comboBoxDisciplines_forDirections.TabIndex = 2;
-			this.comboBoxDisciplines_forDirections.SelectedIndexChanged += new System.EventHandler(this.comboBoxDisciplines_forDirections_SelectedIndexChanged);
-			// 
-			// buttonDisciplines_insert
-			// 
-			this.buttonDisciplines_insert.Location = new System.Drawing.Point(709, 3);
-			this.buttonDisciplines_insert.Name = "buttonDisciplines_insert";
-			this.buttonDisciplines_insert.Size = new System.Drawing.Size(75, 23);
-			this.buttonDisciplines_insert.TabIndex = 3;
-			this.buttonDisciplines_insert.Text = "Insert";
-			this.buttonDisciplines_insert.UseVisualStyleBackColor = true;
-			// 
-			// buttonDirection_insert
-			// 
-			this.buttonDirection_insert.Location = new System.Drawing.Point(709, 3);
-			this.buttonDirection_insert.Name = "buttonDirection_insert";
-			this.buttonDirection_insert.Size = new System.Drawing.Size(75, 23);
-			this.buttonDirection_insert.TabIndex = 1;
-			this.buttonDirection_insert.Text = "Insert";
-			this.buttonDirection_insert.UseVisualStyleBackColor = true;
-			// 
-			// buttonTeachers_insert
-			// 
-			this.buttonTeachers_insert.Location = new System.Drawing.Point(709, 3);
-			this.buttonTeachers_insert.Name = "buttonTeachers_insert";
-			this.buttonTeachers_insert.Size = new System.Drawing.Size(75, 23);
-			this.buttonTeachers_insert.TabIndex = 1;
-			this.buttonTeachers_insert.Text = "insert";
-			this.buttonTeachers_insert.UseVisualStyleBackColor = true;
 			// 
 			// BestAcademyEver
 			// 
