@@ -79,7 +79,9 @@
 			this.Controls.Add(this.buttonDirectionForm_ok);
 			this.Controls.Add(this.textBoxDirectionForm_directionName);
 			this.Controls.Add(this.labelDirectionForm_directionName);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "DirectionForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "DirectionForm";
 			this.ResumeLayout(false);
 			this.PerformLayout();

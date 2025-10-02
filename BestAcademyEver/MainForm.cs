@@ -17,7 +17,6 @@ namespace BestAcademyEver
 	public partial class MainForm : Form
 	{
 		string connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
-		MyConnector connector;
 		internal MyCache cache;
 
 		Query[] queries = new Query[]
@@ -58,8 +57,6 @@ namespace BestAcademyEver
 			cache = new MyCache(connectionString);
 			FillDataSet();
 			FillAllComboBox();
-			dataGridViewDirections.DataSource = cache.GetDataTable(queries[2].Tables);
-			dataGridViewTeachers.DataSource = MyConnector.Select(connectionString, $"SELECT {queries[4].Fileds} FROM {queries[4].Tables}");
 			for (int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
 		}
@@ -131,6 +128,29 @@ namespace BestAcademyEver
 		static extern void AllocConsole();
 
 		//EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS//
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			int index = (sender as TabControl).SelectedIndex;
+			switch (index)
+			{
+				case 0:
+					comboBoxStudents_forGroups_SelectedIndexChanged(null, null);
+					break;
+				case 1:
+					comboBoxGroups_forDirections_SelectedIndexChanged(null, null);
+					break;
+				case 2:
+					dataGridViewDirections.DataSource = cache.GetDataTable(queries[2].Tables);
+					break;
+				case 3:
+					comboBoxDisciplines_forDirections_SelectedIndexChanged(null, null);
+					break;
+				case 4:
+					dataGridViewTeachers.DataSource = MyConnector.Select(connectionString, $"SELECT {queries[4].Fileds} FROM {queries[4].Tables}");
+					break;
+			}
+		}
+
 		private void dataGridViewChanged(object sender, EventArgs e)
 		{
 			toolStripStatusLabel.Text = $"{statusBarMessage[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
@@ -148,8 +168,8 @@ namespace BestAcademyEver
 		private void comboBoxStudents_forGroups_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = $"SELECT {queries[0].Fileds} FROM {queries[0].Tables} WHERE {queries[0].Condition}";
-			if ((sender as ComboBox).SelectedIndex != 0)
-				cmd += $" AND [group] = {(sender as ComboBox).SelectedValue}";
+			if (comboBoxStudents_forGroups.SelectedIndex != 0)
+				cmd += $" AND [group] = {comboBoxStudents_forGroups.SelectedValue}";
 			else if (comboBoxStudents_forDirections.SelectedIndex != 0)
 				cmd += $" AND [group] IN (SELECT group_id FROM Groups WHERE direction = {comboBoxStudents_forDirections.SelectedValue})";
 			dataGridViewStudents.DataSource = MyConnector.Select(connectionString, cmd);
@@ -158,17 +178,17 @@ namespace BestAcademyEver
 		private void comboBoxGroups_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = $"SELECT {queries[1].Fileds} FROM {queries[1].Tables} WHERE {queries[1].Condition}";
-			if ((sender as ComboBox).SelectedIndex != 0)
-				cmd += $" AND direction = {(sender as ComboBox).SelectedValue}";
+			if (comboBoxGroups_forDirections.SelectedIndex != 0)
+				cmd += $" AND direction = {comboBoxGroups_forDirections.SelectedValue}";
 			dataGridViewGroups.DataSource = MyConnector.Select(connectionString, cmd);
 			ConvertLearningDays();
 		}
 
 		private void comboBoxDisciplines_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if ((sender as ComboBox).SelectedIndex != 0)
+			if (comboBoxDisciplines_forDirections.SelectedIndex != 0)
 			{
-				DataRow[] rows = cache.GetDataTable("Directions").Rows.Find((sender as ComboBox).SelectedValue).GetChildRows("DirectionsToDDR");
+				DataRow[] rows = cache.GetDataTable("Directions").Rows.Find(comboBoxDisciplines_forDirections.SelectedValue).GetChildRows("DirectionsToDDR");
 				DataTable table = cache.GetDataTable("Disciplines").Clone();
 				foreach (DataRow row in rows)
 					table.ImportRow(cache.GetDataTable("Disciplines").Rows.Find(row["discipline"]));
@@ -190,7 +210,10 @@ namespace BestAcademyEver
 				if (form.ShowDialog() == DialogResult.OK)
 					result = form.connector.Update(form.UploadData(), $"group_id={form.id}");
 				if (result > 0)
+				{
+					tabControl_SelectedIndexChanged(tabControl, null);
 					MessageBox.Show("Запись обновлена.");
+				}
 				else
 					MessageBox.Show("Обновить запись не удалось.");
 			}
@@ -208,7 +231,10 @@ namespace BestAcademyEver
 				result = form.connector.Insert(cmd);
 			}
 			if (result > 0)
+			{
+				tabControl_SelectedIndexChanged(tabControl, null);
 				MessageBox.Show("Запись успешна.");
+			}
 			else
 				MessageBox.Show("Произвести запись не удалось.");
 		}
@@ -225,7 +251,13 @@ namespace BestAcademyEver
 				if (form.ShowDialog(this) == DialogResult.OK)
 					result = form.connector.Update(form.UploadData(), $"direction_id={form.id}");
 				if (result > 0)
+				{
+					cache.DeleteDataSet();
+					FillDataSet();
+					FillAllComboBox();
+					tabControl_SelectedIndexChanged(tabControl, null);
 					MessageBox.Show("Запись обновлена.");
+				}
 				else
 					MessageBox.Show("Обновить запись не удалось.");
 			}
@@ -238,12 +270,63 @@ namespace BestAcademyEver
 			string cmd = "";
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				cmd += (Convert.ToInt32(form.connector.Scalar("SELECT MAX(direction_id) FROM Drections")) + 1).ToString() + ",";
+				cmd += (Convert.ToInt32(form.connector.Scalar("SELECT MAX(direction_id) FROM Directions")) + 1).ToString() + ",";
 				cmd += form.UploadData();
 				result = form.connector.Insert(cmd);
 			}
 			if (result > 0)
+			{
+				cache.DeleteDataSet();
+				FillDataSet();
+				FillAllComboBox();
+				tabControl_SelectedIndexChanged(tabControl, null);
 				MessageBox.Show("Запись успешна.");
+			}
+			else
+				MessageBox.Show("Произвести запись не удалось.");
+		}
+
+		private void dataGridViewDisciplines_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex > 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewDisciplines.Rows[e.RowIndex];
+				DisciplineForm form = new DisciplineForm(this);
+				int result = 0;
+				form.id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				form.LoadData();
+				if (form.ShowDialog(this) == DialogResult.OK)
+					result = form.connector.Update(form.UploadData(), $"discipline_id={form.id}");
+				if (result > 0)
+				{
+					cache.DeleteDataSet();
+					FillDataSet();
+					tabControl_SelectedIndexChanged(tabControl, null);
+					MessageBox.Show("Запись обновлена.");
+				}
+				else
+					MessageBox.Show("Обновить запись не удалось.");
+			}
+		}
+
+		private void buttonDisciplines_insert_Click(object sender, EventArgs e)
+		{
+			DisciplineForm form = new DisciplineForm(this);
+			int result = 0;
+			string cmd = "";
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(form.connector.Scalar("SELECT MAX(discipline_id) FROM Disciplines")) + 1).ToString() + ",";
+				cmd += form.UploadData();
+				result = form.connector.Insert(cmd);
+			}
+			if (result > 0)
+			{
+				cache.DeleteDataSet();
+				FillDataSet();
+				tabControl_SelectedIndexChanged(tabControl, null);
+				MessageBox.Show("Запись успешна.");
+			}
 			else
 				MessageBox.Show("Произвести запись не удалось.");
 		}

@@ -53,6 +53,12 @@
     <Compile Include="DirectionForm.Designer.cs">
       <DependentUpon>DirectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DisciplineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisciplineForm.Designer.cs">
+      <DependentUpon>DisciplineForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="Week.cs" />
     <EmbeddedResource Include="DirectionForm.resx">
       <DependentUpon>DirectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisciplineForm.resx">
+      <DependentUpon>DisciplineForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

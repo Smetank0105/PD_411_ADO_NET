@@ -81,6 +81,7 @@
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(800, 450);
 			this.tabControl.TabIndex = 0;
+			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
 			// tabPageStudents
 			// 
@@ -267,6 +268,7 @@
 			this.buttonDisciplines_insert.TabIndex = 3;
 			this.buttonDisciplines_insert.Text = "Insert";
 			this.buttonDisciplines_insert.UseVisualStyleBackColor = true;
+			this.buttonDisciplines_insert.Click += new System.EventHandler(this.buttonDisciplines_insert_Click);
 			// 
 			// comboBoxDisciplines_forDirections
 			// 
@@ -294,6 +296,7 @@
 			this.dataGridViewDisciplines.Name = "dataGridViewDisciplines";
 			this.dataGridViewDisciplines.Size = new System.Drawing.Size(780, 370);
 			this.dataGridViewDisciplines.TabIndex = 0;
+			this.dataGridViewDisciplines.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDisciplines_CellDoubleClick);
 			// 
 			// tabPageTeachers
 			// 

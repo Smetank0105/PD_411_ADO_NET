@@ -153,7 +153,9 @@
 			this.Controls.Add(this.labelGroupForm_learning_days);
 			this.Controls.Add(this.labelGroupForm_direction);
 			this.Controls.Add(this.labelGroupForm_groupName);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "GroupForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "GroupForm";
 			this.ResumeLayout(false);
 			this.PerformLayout();

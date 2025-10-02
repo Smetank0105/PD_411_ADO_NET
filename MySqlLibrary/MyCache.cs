@@ -12,7 +12,7 @@ namespace MySqlLibrary
 	{
 		private SqlConnection _connection;
 		private SqlDataAdapter _adapter;
-		public DataSet _dataSet { get;}
+		private DataSet _dataSet;
 
 		public MyCache(string connectionString)
 		{
@@ -50,10 +50,10 @@ namespace MySqlLibrary
 			if (!_dataSet.Tables[child_table].Columns.Contains(child_column))
 				throw new ArgumentException($"Column '{child_column}' not found in table '{child_table}'.");
 
-			ForeignKeyConstraint fkConstraint = new ForeignKeyConstraint(relation_name, _dataSet.Tables[parent_table].Columns[parent_column], _dataSet.Tables[child_table].Columns[child_column]);
-			fkConstraint.DeleteRule = Rule.Cascade;
-			fkConstraint.UpdateRule = Rule.Cascade;
-			_dataSet.Tables[child_table].Constraints.Add(fkConstraint);
+			//ForeignKeyConstraint fkConstraint = new ForeignKeyConstraint(relation_name, _dataSet.Tables[parent_table].Columns[parent_column], _dataSet.Tables[child_table].Columns[child_column]);
+			//fkConstraint.DeleteRule = Rule.Cascade;
+			//fkConstraint.UpdateRule = Rule.Cascade;
+			//_dataSet.Tables[child_table].Constraints.Add(fkConstraint);
 
 			DataRelation relation = new DataRelation(relation_name, _dataSet.Tables[parent_table].Columns[parent_column], _dataSet.Tables[child_table].Columns[child_column]);
 			_dataSet.Relations.Add(relation);
@@ -79,9 +79,9 @@ namespace MySqlLibrary
 			else
 				return null;
 		}
-		public void ClearDataSet()
+		public void DeleteDataSet()
 		{
-			_dataSet.Clear();
+			_dataSet= new DataSet();
 		}
 	}
 }
