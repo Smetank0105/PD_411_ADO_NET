@@ -1,6 +1,6 @@
 ﻿namespace BestAcademyEver
 {
-	partial class BestAcademyEver
+	partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -179,6 +179,7 @@
 			this.buttonGroups_insert.TabIndex = 3;
 			this.buttonGroups_insert.Text = "Insert";
 			this.buttonGroups_insert.UseVisualStyleBackColor = true;
+			this.buttonGroups_insert.Click += new System.EventHandler(this.buttonGroups_insert_Click);
 			// 
 			// comboBoxGroups_forDirections
 			// 
@@ -207,6 +208,7 @@
 			this.dataGridViewGroups.Name = "dataGridViewGroups";
 			this.dataGridViewGroups.Size = new System.Drawing.Size(780, 370);
 			this.dataGridViewGroups.TabIndex = 0;
+			this.dataGridViewGroups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGroups_CellDoubleClick);
 			// 
 			// tabPageDirections
 			// 
@@ -337,14 +339,14 @@
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(112, 17);
 			this.toolStripStatusLabel.Text = "toolStripStatusLabel";
 			// 
-			// BestAcademyEver
+			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.tabControl);
-			this.Name = "BestAcademyEver";
+			this.Name = "MainForm";
 			this.Text = "BestAcademyEver";
 			this.tabControl.ResumeLayout(false);
 			this.tabPageStudents.ResumeLayout(false);

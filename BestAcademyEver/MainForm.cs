@@ -14,11 +14,11 @@ using System.Runtime.CompilerServices;
 
 namespace BestAcademyEver
 {
-	public partial class BestAcademyEver : Form
+	public partial class MainForm : Form
 	{
 		string connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
 		MyConnector connector;
-		MyCache cache;
+		internal MyCache cache;
 
 		Query[] queries = new Query[]
 		{
@@ -51,7 +51,7 @@ namespace BestAcademyEver
 			"Колличество преподавателей"
 		};
 
-		public BestAcademyEver()
+		public MainForm()
 		{
 			InitializeComponent();
 			AllocConsole();
@@ -60,7 +60,7 @@ namespace BestAcademyEver
 			FillAllComboBox();
 			dataGridViewDirections.DataSource = cache.GetDataTable(queries[2].Tables);
 			dataGridViewTeachers.DataSource = MyConnector.Select(connectionString, $"SELECT {queries[4].Fileds} FROM {queries[4].Tables}");
-			for(int i =0; i <tabControl.TabCount; i++)
+			for (int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
 		}
 		//FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS//
@@ -83,19 +83,22 @@ namespace BestAcademyEver
 			cache.AddRelation("DirectionsToDDR", "Directions", "direction_id", "DDR", "direction");
 			cache.AddRelation("DisciplinesToDDR", "Disciplines", "discipline_id", "DDR", "discipline");
 		}
+
 		private void FillAllComboBox()
 		{
 			FillComboBox(comboBoxStudents_forDirections, cache.GetDataTable(queries[2].Tables));
 			FillComboBox(comboBoxGroups_forDirections, cache.GetDataTable(queries[2].Tables));
 			FillComboBox(comboBoxDisciplines_forDirections, cache.GetDataTable(queries[2].Tables));
 		}
-		private void FillComboBox(ComboBox comboBox, DataTable dataTable)
+
+		internal void FillComboBox(ComboBox comboBox, DataTable dataTable)
 		{
 			comboBox.DataSource = GetComboTable(dataTable);
 			comboBox.DisplayMember = "Name";
 			comboBox.ValueMember = "Id";
 			comboBox.SelectedIndex = 0;
 		}
+
 		private DataTable GetComboTable(DataTable dataTable)
 		{
 			DataTable table = new DataTable();
@@ -114,6 +117,7 @@ namespace BestAcademyEver
 			}
 			return table;
 		}
+
 		void ConvertLearningDays()
 		{
 			for (int i = 0; i < dataGridViewGroups.RowCount; i++)
@@ -121,14 +125,17 @@ namespace BestAcademyEver
 				dataGridViewGroups.Rows[i].Cells["Учебные дни"].Value = new Week(Convert.ToByte(dataGridViewGroups.Rows[i].Cells["Учебные дни"].Value));
 			}
 		}
+
 		//CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE////CONSOLE//
 		[DllImport("Kernel32.dll")]
 		static extern void AllocConsole();
+
 		//EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS////EVENTS//
 		private void dataGridViewChanged(object sender, EventArgs e)
 		{
 			toolStripStatusLabel.Text = $"{statusBarMessage[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
 		}
+
 		private void comboBoxStudents_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = "SELECT group_id, group_name FROM Groups";
@@ -137,6 +144,7 @@ namespace BestAcademyEver
 			DataTable dataTable = MyConnector.Select(connectionString, cmd);
 			FillComboBox(comboBoxStudents_forGroups, dataTable);
 		}
+
 		private void comboBoxStudents_forGroups_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = $"SELECT {queries[0].Fileds} FROM {queries[0].Tables} WHERE {queries[0].Condition}";
@@ -146,6 +154,7 @@ namespace BestAcademyEver
 				cmd += $" AND [group] IN (SELECT group_id FROM Groups WHERE direction = {comboBoxStudents_forDirections.SelectedValue})";
 			dataGridViewStudents.DataSource = MyConnector.Select(connectionString, cmd);
 		}
+
 		private void comboBoxGroups_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = $"SELECT {queries[1].Fileds} FROM {queries[1].Tables} WHERE {queries[1].Condition}";
@@ -167,6 +176,41 @@ namespace BestAcademyEver
 			}
 			else
 				dataGridViewDisciplines.DataSource = cache.GetDataTable("Disciplines");
+		}
+
+		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex > 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewGroups.Rows[e.RowIndex];
+				GroupForm form = new GroupForm(this);
+				int result = 0;
+				form.id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				form.LoadData();
+				if (form.ShowDialog() == DialogResult.OK)
+					result = form.connector.Update(form.UploadData(), $"group_id={form.id}");
+				if (result > 0)
+					MessageBox.Show("Запись обновлена.");
+				else
+					MessageBox.Show("Обновить запись не удалось.");
+			}
+		}
+
+		private void buttonGroups_insert_Click(object sender, EventArgs e)
+		{
+			GroupForm form = new GroupForm(this);
+			int result = 0;
+			string cmd = "";
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(form.connector.Scalar("SELECT MAX(group_id) FROM Groups")) + 1).ToString() + ",";
+				cmd += form.UploadData();
+				result = form.connector.Insert(cmd);
+			}
+			if (result > 0)
+				MessageBox.Show("Запись обновлена.");
+			else
+				MessageBox.Show("Обновить запись не удалось.");
 		}
 	}
 }

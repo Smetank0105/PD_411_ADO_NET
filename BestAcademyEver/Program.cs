@@ -16,7 +16,7 @@ namespace BestAcademyEver
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new BestAcademyEver());
+			Application.Run(new MainForm());
 		}
 	}
 }

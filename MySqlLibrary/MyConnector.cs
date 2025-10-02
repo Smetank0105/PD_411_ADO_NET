@@ -24,7 +24,10 @@ namespace MySqlLibrary
 		{
 			SqlCommand command = new SqlCommand();
 			_connection.Open();
-			_columns = _connection.GetSchema("Columns", new string[] { null, null, _table_name, null });
+			DataTable schema = _connection.GetSchema("Columns", new string[] { null, null, _table_name, null });
+			DataView dv = schema.DefaultView;
+			dv.Sort = "ORDINAL_POSITION ASC";
+			_columns = dv.ToTable();
 			_connection.Close();
 		}
 		public object Scalar(string cmd)
@@ -64,8 +67,8 @@ namespace MySqlLibrary
 			string condition = "";
 			for (int j = 0, i = values_for_check.Length == _columns.Rows.Count ? 0 : 1; i < _columns.Rows.Count; j++, i++)
 			{
-				fields_name[i] = _columns.Rows[i]["COLUMN_NAME"].ToString();
-				if(i > 0)
+				fields_name[i] = $"[{_columns.Rows[i]["COLUMN_NAME"].ToString()}]";
+				if (i > 0)
 					condition += $" {fields_name[i]} = {values_for_check[j]} AND";
 			}
 			condition = condition.Remove(condition.LastIndexOf(' '), 4);
@@ -73,8 +76,8 @@ namespace MySqlLibrary
 			string cmd = $"IF NOT EXISTS(SELECT {_columns.Rows[0]["COLUMN_NAME"].ToString()} FROM {_table_name} WHERE {condition}) BEGIN INSERT {_table_name} ({fields}) VALUES ({values}); END";
 			SqlCommand command = new SqlCommand(cmd, _connection);
 			_connection.Open();
-			int result =  command.ExecuteNonQuery();
-			_connection.Close() ;
+			int result = command.ExecuteNonQuery();
+			_connection.Close();
 			return result;
 		}
 		public int Update(string values, string condition)
@@ -85,14 +88,15 @@ namespace MySqlLibrary
 			for (int i = 0; i < values_for_check.Length; i++)
 			{
 				if (string.IsNullOrWhiteSpace(values_for_check[i])) continue;
-				set_values += $" {_columns.Rows[i + 1]["COLUMN_NAME"].ToString()} = {values_for_check[i]},";
+				set_values += $" [{_columns.Rows[i + 1]["COLUMN_NAME"].ToString()}] = {values_for_check[i]},";
 			}
 			set_values = set_values.Remove(set_values.Length - 1);
 			string cmd = $"UPDATE {_table_name} SET {set_values} WHERE {condition};";
+			Console.WriteLine(cmd);
 			SqlCommand command = new SqlCommand(cmd, _connection);
 			_connection.Open();
 			int result = command.ExecuteNonQuery();
-			_connection.Close() ;
+			_connection.Close();
 			return result;
 		}
 		public int Delete(string condition)
