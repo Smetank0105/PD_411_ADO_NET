@@ -77,7 +77,10 @@ namespace BestAcademyEver
 					command.Parameters.Add("@birth_date",SqlDbType.Date).Value = dtpStudentForm_birthDate.Text;
 					command.Parameters.Add("@email",SqlDbType.NVarChar).Value = textBoxStudentForm_email.Text;
 					command.Parameters.Add("@phone",SqlDbType.NChar).Value = textBoxStudentForm_phone.Text;
-					command.Parameters.Add("@photo", SqlDbType.Image).Value = bytes;
+					if (bytes != null)
+						command.Parameters.Add("@photo", SqlDbType.Image).Value = bytes;
+					else
+						command.Parameters.Add("@photo", SqlDbType.Image).Value = DBNull.Value;
 					command.Parameters.Add("@group", SqlDbType.Int).Value = comboBoxStudentForm_group.SelectedValue;
 					result = command.ExecuteNonQuery();
 				}
@@ -100,7 +103,10 @@ namespace BestAcademyEver
 					command.Parameters.Add("@birth_date", SqlDbType.Date).Value = dtpStudentForm_birthDate.Text;
 					command.Parameters.Add("@email", SqlDbType.NVarChar).Value = textBoxStudentForm_email.Text;
 					command.Parameters.Add("@phone", SqlDbType.NChar).Value = textBoxStudentForm_phone.Text;
-					command.Parameters.Add("@photo", SqlDbType.Image).Value = bytes;
+					if (bytes != null)
+						command.Parameters.Add("@photo", SqlDbType.Image).Value = bytes;
+					else
+						command.Parameters.Add("@photo", SqlDbType.Image).Value = DBNull.Value;
 					command.Parameters.Add("@group", SqlDbType.Int).Value = comboBoxStudentForm_group.SelectedValue;
 					result = command.ExecuteNonQuery();
 				}

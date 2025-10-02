@@ -320,6 +320,7 @@
 			this.buttonTeachers_insert.TabIndex = 1;
 			this.buttonTeachers_insert.Text = "insert";
 			this.buttonTeachers_insert.UseVisualStyleBackColor = true;
+			this.buttonTeachers_insert.Click += new System.EventHandler(this.buttonTeachers_insert_Click);
 			// 
 			// dataGridViewTeachers
 			// 
@@ -329,6 +330,7 @@
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
 			this.dataGridViewTeachers.Size = new System.Drawing.Size(780, 370);
 			this.dataGridViewTeachers.TabIndex = 0;
+			this.dataGridViewTeachers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTeachers_CellDoubleClick);
 			// 
 			// statusStrip1
 			// 

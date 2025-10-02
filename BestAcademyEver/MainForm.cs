@@ -366,5 +366,41 @@ namespace BestAcademyEver
 			else
 				MessageBox.Show("Произвести запись не удалось.");
 		}
+
+		private void dataGridViewTeachers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex > 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewTeachers.Rows[e.RowIndex];
+				TeacherForm form = new TeacherForm(this);
+				int result = 0;
+				form.id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				form.SelectData();
+				if(form.ShowDialog() == DialogResult.OK)
+					result = form.UpdateData();
+				if (result > 0)
+				{
+					tabControl_SelectedIndexChanged(tabControl, null);
+					MessageBox.Show("Запись обновлена.");
+				}
+				else
+					MessageBox.Show("Обновить запись не удалось.");
+			}
+		}
+
+		private void buttonTeachers_insert_Click(object sender, EventArgs e)
+		{
+			TeacherForm form = new TeacherForm(this);
+			int result = 0;
+			if (form.ShowDialog() == DialogResult.OK)
+				result = form.InsertData();
+			if (result > 0)
+			{
+				tabControl_SelectedIndexChanged(tabControl, null);
+				MessageBox.Show("Запись успешна.");
+			}
+			else
+				MessageBox.Show("Произвести запись не удалось.");
+		}
 	}
 }
