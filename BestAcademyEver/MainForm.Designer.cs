@@ -107,6 +107,7 @@
 			this.buttonStudents_insert.TabIndex = 5;
 			this.buttonStudents_insert.Text = "Insert";
 			this.buttonStudents_insert.UseVisualStyleBackColor = true;
+			this.buttonStudents_insert.Click += new System.EventHandler(this.buttonStudents_insert_Click);
 			// 
 			// comboBoxStudents_forGroups
 			// 
@@ -157,6 +158,7 @@
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
 			this.dataGridViewStudents.Size = new System.Drawing.Size(780, 370);
 			this.dataGridViewStudents.TabIndex = 0;
+			this.dataGridViewStudents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStudents_CellDoubleClick);
 			// 
 			// tabPageGroups
 			// 

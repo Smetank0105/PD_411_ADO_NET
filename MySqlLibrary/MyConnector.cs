@@ -138,9 +138,9 @@ namespace MySqlLibrary
 			SqlDataReader reader = command.ExecuteReader();
 			for (int i = 0; i < reader.FieldCount; i++)
 				table.Columns.Add(reader.GetName(i));
-			DataRow row = table.NewRow();
 			while (reader.Read())
 			{
+				DataRow row = table.NewRow();
 				for (int i = 0; i < reader.FieldCount; i++)
 					row[i] = reader[i];
 				table.Rows.Add(row);
