@@ -22,13 +22,15 @@ namespace BestAcademyEver
 			InitializeComponent();
 			this.mainForm = mainForm;
 			connector = new MyConnector(ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString, "Groups");
-			mainForm.FillComboBox(comboBoxGroupForm_direction,mainForm.cache.GetDataTable("Directions"));
+			comboBoxGroupForm_direction.DataSource = mainForm.cache.GetDataTable("Directions");
+			comboBoxGroupForm_direction.DisplayMember = mainForm.cache.GetDataTable("Directions").Columns[1].ColumnName;
+			comboBoxGroupForm_direction.ValueMember = mainForm.cache.GetDataTable("Directions").Columns[0].ColumnName;
 		}
 		internal void LoadData()
 		{
 			DataTable table = MyConnector.Select(ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString, $"SELECT * FROM Groups WHERE group_id={id}");
 			textBoxGroupForm_groupName.Text = table.Rows[0]["group_name"].ToString();
-			comboBoxGroupForm_direction.SelectedIndex = Convert.ToInt32(table.Rows[0]["direction"]);
+			comboBoxGroupForm_direction.SelectedValue = table.Rows[0]["direction"];
 			FromLearnngDays(Convert.ToInt32(table.Rows[0]["learning_days"]));
 			dtpGroupForm_startTime.Value = DateTime.Parse(table.Rows[0]["start_time"].ToString());
 		}
@@ -36,7 +38,7 @@ namespace BestAcademyEver
 		internal string UploadData()
 		{
 			return $@"N'{textBoxGroupForm_groupName.Text}',
-						{comboBoxGroupForm_direction.SelectedIndex},
+						{comboBoxGroupForm_direction.SelectedValue},
 						{ToLearningDays()},
 						'{dtpGroupForm_startTime.Value.ToString("HH:mm")}'";
 		}

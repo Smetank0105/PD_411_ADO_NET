@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using MySqlLibrary;
 using System.Configuration;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BestAcademyEver
 {
@@ -208,9 +208,44 @@ namespace BestAcademyEver
 				result = form.connector.Insert(cmd);
 			}
 			if (result > 0)
-				MessageBox.Show("Запись обновлена.");
+				MessageBox.Show("Запись успешна.");
 			else
-				MessageBox.Show("Обновить запись не удалось.");
+				MessageBox.Show("Произвести запись не удалось.");
+		}
+
+		private void dataGridViewDirections_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex > 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewDirections.Rows[e.RowIndex];
+				DirectionForm form = new DirectionForm(this);
+				int result = 0;
+				form.id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				form.LoadData();
+				if (form.ShowDialog(this) == DialogResult.OK)
+					result = form.connector.Update(form.UploadData(), $"direction_id={form.id}");
+				if (result > 0)
+					MessageBox.Show("Запись обновлена.");
+				else
+					MessageBox.Show("Обновить запись не удалось.");
+			}
+		}
+
+		private void buttonDirection_insert_Click(object sender, EventArgs e)
+		{
+			DirectionForm form = new DirectionForm(this);
+			int result = 0;
+			string cmd = "";
+			if (form.ShowDialog() == DialogResult.OK)
+			{
+				cmd += (Convert.ToInt32(form.connector.Scalar("SELECT MAX(direction_id) FROM Drections")) + 1).ToString() + ",";
+				cmd += form.UploadData();
+				result = form.connector.Insert(cmd);
+			}
+			if (result > 0)
+				MessageBox.Show("Запись успешна.");
+			else
+				MessageBox.Show("Произвести запись не удалось.");
 		}
 	}
 }

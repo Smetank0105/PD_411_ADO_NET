@@ -230,6 +230,7 @@
 			this.buttonDirection_insert.TabIndex = 1;
 			this.buttonDirection_insert.Text = "Insert";
 			this.buttonDirection_insert.UseVisualStyleBackColor = true;
+			this.buttonDirection_insert.Click += new System.EventHandler(this.buttonDirection_insert_Click);
 			// 
 			// dataGridViewDirections
 			// 
@@ -242,6 +243,7 @@
 			this.dataGridViewDirections.Name = "dataGridViewDirections";
 			this.dataGridViewDirections.Size = new System.Drawing.Size(780, 370);
 			this.dataGridViewDirections.TabIndex = 0;
+			this.dataGridViewDirections.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDirections_CellDoubleClick);
 			// 
 			// tabPageDisciplines
 			// 
