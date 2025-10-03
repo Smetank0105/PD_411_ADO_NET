@@ -67,10 +67,9 @@ namespace BestAcademyEver
 			using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString))
 			{
 				connection.Open();
-				string cmd = "INSERT INTO Students (stud_id,last_name,first_name,middle_name,birth_date,email,phone,photo,[group]) VALUES (@stud_id,@last_name,@first_name,@middle_name,@birth_date,@email,@phone,@photo,@group)";
+				string cmd = "INSERT INTO Students (last_name,first_name,middle_name,birth_date,email,phone,photo,[group]) VALUES (@last_name,@first_name,@middle_name,@birth_date,@email,@phone,@photo,@group)";
 				using (SqlCommand command = new SqlCommand(cmd, connection))
 				{
-					command.Parameters.Add("@stud_id", SqlDbType.Int).Value = Convert.ToInt32(connector.Scalar("SELECT MAX(stud_id) FROM Students"));
 					command.Parameters.Add("@last_name",SqlDbType.NVarChar).Value = textBoxStudentForm_lastName.Text;
 					command.Parameters.Add("@first_name",SqlDbType.NVarChar).Value = textBoxStudentForm_firstName.Text;
 					command.Parameters.Add("@middle_name",SqlDbType.NVarChar).Value = textBoxStudentForm_middleName.Text;
