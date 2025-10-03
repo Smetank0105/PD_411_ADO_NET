@@ -164,7 +164,7 @@ namespace DataSet
 
 			comboBoxDisciplinesForDirection.DataSource = DisciplinesDirectionsRelation.Tables[dsTable_Directions];
 			comboBoxDisciplinesForDirection.DisplayMember = dstDirections_direction_name;
-			comboBoxDisciplinesForDirection.ValueMember = dstDirections_direction_name;
+			comboBoxDisciplinesForDirection.ValueMember = dstDirections_direction_id;
 		}
 		void GetKeyValue(object sender, EventArgs e)
 		{
@@ -190,7 +190,14 @@ namespace DataSet
 
 		private void comboBoxDisciplinesForDirection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
+			DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
+			DataTable dtDisciplinesForDirection = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
+			foreach (DataRow row in ddr)
+			{
+				DataRow discipline = DisciplinesDirectionsRelation.Tables["Disciplines"].Rows.Find(row["discipline"]);
+				dtDisciplinesForDirection.ImportRow(discipline);
+			}
+			dataGridViewDisciplines.DataSource = dtDisciplinesForDirection;
 		}
 	}
 }
