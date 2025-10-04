@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
 			this.buttonStudents_insert = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@
 			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.contextMenuStrip_dgvColumns = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).BeginInit();
@@ -152,7 +154,7 @@
 			this.dataGridViewStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewStudents.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
@@ -205,7 +207,7 @@
 			// 
 			// dataGridViewGroups
 			// 
-			this.dataGridViewGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewGroups.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewGroups.Name = "dataGridViewGroups";
@@ -240,7 +242,7 @@
 			this.dataGridViewDirections.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.dataGridViewDirections.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewDirections.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewDirections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewDirections.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewDirections.Name = "dataGridViewDirections";
@@ -293,6 +295,7 @@
 			// 
 			// dataGridViewDisciplines
 			// 
+			this.dataGridViewDisciplines.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewDisciplines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewDisciplines.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewDisciplines.Name = "dataGridViewDisciplines";
@@ -324,7 +327,7 @@
 			// 
 			// dataGridViewTeachers
 			// 
-			this.dataGridViewTeachers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridViewTeachers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
 			this.dataGridViewTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewTeachers.Location = new System.Drawing.Point(6, 30);
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
@@ -347,6 +350,11 @@
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(112, 17);
 			this.toolStripStatusLabel.Text = "toolStripStatusLabel";
+			// 
+			// contextMenuStrip_dgvColumns
+			// 
+			this.contextMenuStrip_dgvColumns.Name = "contextMenuStrip_dgvColumns";
+			this.contextMenuStrip_dgvColumns.Size = new System.Drawing.Size(61, 4);
 			// 
 			// MainForm
 			// 
@@ -406,6 +414,7 @@
 		private System.Windows.Forms.ComboBox comboBoxDisciplines_forDirections;
 		private System.Windows.Forms.Label labelDisciplines_Direction;
 		private System.Windows.Forms.Button buttonTeachers_insert;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip_dgvColumns;
 	}
 }
 

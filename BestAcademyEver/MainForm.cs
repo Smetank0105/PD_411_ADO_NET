@@ -58,7 +58,10 @@ namespace BestAcademyEver
 			FillDataSet();
 			FillAllComboBox();
 			for (int i = 0; i < tabControl.TabCount; i++)
+			{
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
+				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}", true)[0] as DataGridView).ColumnHeaderMouseClick += this.dataGridView_ColumnHeaderMouseClick;
+			}
 		}
 		//FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS////FUNCTIONS//
 		private void FillDataSet()
@@ -156,6 +159,23 @@ namespace BestAcademyEver
 			toolStripStatusLabel.Text = $"{statusBarMessage[tabControl.SelectedIndex]}: {(sender as DataGridView).RowCount - 1}";
 		}
 
+		private void dataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right && e.RowIndex == -1)
+			{
+				contextMenuStrip_dgvColumns.Items.Clear();
+				foreach (DataGridViewColumn column in (sender as DataGridView).Columns)
+				{
+					ToolStripMenuItem item = new ToolStripMenuItem(column.HeaderText);
+					item.CheckOnClick = true;
+					item.Checked = column.Visible;
+					item.Click += (s, args) => { column.Visible = !column.Visible; };
+					contextMenuStrip_dgvColumns.Items.Add(item);
+				}
+				contextMenuStrip_dgvColumns.Show((sender as DataGridView), e.Location);
+			}
+		}
+
 		private void comboBoxStudents_forDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cmd = "SELECT group_id, group_name FROM Groups";
@@ -200,7 +220,7 @@ namespace BestAcademyEver
 
 		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex > 0)
+			if (e.RowIndex >= 0)
 			{
 				DataGridViewRow selectedRow = dataGridViewGroups.Rows[e.RowIndex];
 				GroupForm form = new GroupForm(this);
@@ -241,7 +261,7 @@ namespace BestAcademyEver
 
 		private void dataGridViewDirections_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex > 0)
+			if (e.RowIndex >= 0)
 			{
 				DataGridViewRow selectedRow = dataGridViewDirections.Rows[e.RowIndex];
 				DirectionForm form = new DirectionForm(this);
@@ -288,7 +308,7 @@ namespace BestAcademyEver
 
 		private void dataGridViewDisciplines_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex > 0)
+			if (e.RowIndex >= 0)
 			{
 				DataGridViewRow selectedRow = dataGridViewDisciplines.Rows[e.RowIndex];
 				DisciplineForm form = new DisciplineForm(this);
@@ -333,7 +353,7 @@ namespace BestAcademyEver
 
 		private void dataGridViewStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex > 0)
+			if (e.RowIndex >= 0)
 			{
 				DataGridViewRow selectedRow = dataGridViewStudents.Rows[e.RowIndex];
 				StudentForm form = new StudentForm(this);
@@ -369,7 +389,7 @@ namespace BestAcademyEver
 
 		private void dataGridViewTeachers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex > 0)
+			if (e.RowIndex >= 0)
 			{
 				DataGridViewRow selectedRow = dataGridViewTeachers.Rows[e.RowIndex];
 				TeacherForm form = new TeacherForm(this);
