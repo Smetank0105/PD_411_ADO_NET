@@ -22,6 +22,32 @@ namespace Academy
 			comboBoxGroup.DataSource = groups;
 			comboBoxGroup.DisplayMember = "group_name";
 			comboBoxGroup.ValueMember = "group_id";
+
+			//InitForm();
+		}
+		public FormStudent(DataRow row) : this()
+		{
+			int stud_id = Convert.ToInt32(row[0]);
+			DataTable table = connector.Select("*", "Students", $"stud_id={stud_id}");
+			textBoxLastName.Text = table.Rows[0][1].ToString();
+			textBoxFirstName.Text = table.Rows[0][2].ToString();
+			textBoxMiddleName.Text = table.Rows[0][3].ToString();
+			dateTimePickerBirthDate.Text = table.Rows[0][4].ToString();
+			textBoxEmail.Text = table.Rows[0][5].ToString();
+			textBoxPhone.Text = table.Rows[0][6].ToString();
+			comboBoxGroup.SelectedValue = table.Rows[0][8];
+			labelID.Visible = true;
+			labelID.Text = $"ID: {table.Rows[0][0].ToString()}";
+		}
+		void InitForm()
+		{
+			textBoxLastName.Text = "Иванов";
+			textBoxFirstName.Text = "Иван";
+			textBoxMiddleName.Text = "Иванович";
+			dateTimePickerBirthDate.Text = "2007-07-08";
+			textBoxEmail.Text = "ivanov@mail.ru";
+			textBoxPhone.Text = "+7(123)456-77-88";
+			comboBoxGroup.SelectedValue = 11;
 		}
 		void Compress()
 		{

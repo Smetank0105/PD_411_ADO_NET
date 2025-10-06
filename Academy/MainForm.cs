@@ -62,6 +62,7 @@ namespace Academy
 			tabControl.SelectedIndex = 2;
 			for(int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}",true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
+
 		}
 		void LoadTab(int i)
 		{
@@ -69,6 +70,8 @@ namespace Academy
 			DataGridView dataGridView = this.Controls.Find($"dataGridView{tableName}", true)[0] as DataGridView;
 			dataGridView.DataSource = Select(queries[i].Fileds, queries[i].Tables, queries[i].Condition);
 			if (i == 1) ConvertLearningDays();
+			dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			dataGridView.ReadOnly = true;
 		}
 		DataTable Select(string fields, string tables, string condition="")
 		{
@@ -180,6 +183,14 @@ namespace Academy
 					student.student.ToString()
 					);
 			}
+		}
+
+		private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			int i = dataGridViewStudents.SelectedRows[0].Index;
+			DataRow row = (dataGridViewStudents.DataSource as DataTable).Rows[i];
+			FormStudent form = new FormStudent(row);
+			DialogResult result =  form.ShowDialog();
 		}
 	}
 }

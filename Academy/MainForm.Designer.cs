@@ -164,9 +164,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridViewStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewStudents.Location = new System.Drawing.Point(0, 41);
+			this.dataGridViewStudents.MultiSelect = false;
 			this.dataGridViewStudents.Name = "dataGridViewStudents";
+			this.dataGridViewStudents.ReadOnly = true;
+			this.dataGridViewStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewStudents.Size = new System.Drawing.Size(792, 362);
 			this.dataGridViewStudents.TabIndex = 0;
+			this.dataGridViewStudents.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewStudents_MouseDoubleClick);
 			// 
 			// tabPageGroups
 			// 
