@@ -197,15 +197,10 @@ namespace Academy
 				connector.Update
 					(
 					"Students",
-$@"last_name=N'{form.student.Last_name}',
-first_name=N'{form.student.First_name}',
-middle_name=N'{form.student.Middle_name}',
-birth_date='{form.student.Birth_date}',
-email=N'{form.student.Email}',
-phone=N'{form.student.Phone}',
-[group]={form.student.Group}",
+					form.student.ToStringUpdate(),
 					$"stud_id={i}"
 					);
+				comboBoxStudentsGroup_SelectedIndexChanged(null, null);
 			}
 		}
 	}

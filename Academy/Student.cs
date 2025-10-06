@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Academy
 {
@@ -31,6 +32,16 @@ namespace Academy
 		public override string ToString()
 		{
 			return $"N'{Last_name}',N'{First_name}',N'{Middle_name}','{Birth_date}',N'{Email}',N'{Phone}',{Group}";
+		}
+		public string ToStringUpdate()
+		{
+			return $@"last_name=N'{Last_name}',
+first_name=N'{First_name}',
+middle_name=N'{Middle_name}',
+birth_date='{Birth_date}',
+email=N'{Email}',
+phone=N'{Phone}',
+[group]={Group}";
 		}
 	}
 }
