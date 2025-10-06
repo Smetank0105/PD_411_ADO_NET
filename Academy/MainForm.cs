@@ -17,6 +17,7 @@ namespace Academy
 	{
 		string connectionString = "";
 		SqlConnection connection;
+		Connector connector;
 		Dictionary<string, int> d_groupDirection;
 		Dictionary<string, int> d_studentGroup;
 
@@ -53,6 +54,7 @@ namespace Academy
 			AllocConsole();
 			connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
 			connection = new SqlConnection(connectionString);
+			connector = new Connector();
 			Console.WriteLine(tabControl.TabCount);
 			d_groupDirection = LoadDataToComboBox("*","Directions");
 			comboBoxGroupsDirection.Items.AddRange(d_groupDirection.Keys.ToArray());
@@ -176,7 +178,7 @@ namespace Academy
 			DialogResult result = student.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				Insert
+				connector.Insert
 					(
 					"Students",
 					"last_name,first_name,middle_name,birth_date,email,phone,[group]",
@@ -187,10 +189,24 @@ namespace Academy
 
 		private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			int i = dataGridViewStudents.SelectedRows[0].Index;
-			DataRow row = (dataGridViewStudents.DataSource as DataTable).Rows[i];
-			FormStudent form = new FormStudent(row);
+			int i = Convert.ToInt32(dataGridViewStudents.SelectedRows[0].Cells[0].Value);
+			FormStudent form = new FormStudent(i);
 			DialogResult result =  form.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				connector.Update
+					(
+					"Students",
+$@"last_name=N'{form.student.Last_name}',
+first_name=N'{form.student.First_name}',
+middle_name=N'{form.student.Middle_name}',
+birth_date='{form.student.Birth_date}',
+email=N'{form.student.Email}',
+phone=N'{form.student.Phone}',
+[group]={form.student.Group}",
+					$"stud_id={i}"
+					);
+			}
 		}
 	}
 }

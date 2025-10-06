@@ -23,11 +23,10 @@ namespace Academy
 			comboBoxGroup.DisplayMember = "group_name";
 			comboBoxGroup.ValueMember = "group_id";
 
-			//InitForm();
+			InitForm();
 		}
-		public FormStudent(DataRow row) : this()
+		public FormStudent(int stud_id) : this()
 		{
-			int stud_id = Convert.ToInt32(row[0]);
 			DataTable table = connector.Select("*", "Students", $"stud_id={stud_id}");
 			textBoxLastName.Text = table.Rows[0][1].ToString();
 			textBoxFirstName.Text = table.Rows[0][2].ToString();

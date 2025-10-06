@@ -52,5 +52,13 @@ namespace Academy
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
+		public void Update(string table, string fields, string conditions)
+		{
+			string cmd = $"UPDATE {table} SET {fields} WHERE {conditions}";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
 	}
 }
