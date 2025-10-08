@@ -40,7 +40,14 @@ namespace Academy
 			labelID.Visible = true;
 			labelID.Text = $"ID: {table.Rows[0][0].ToString()}";
 
-			pictureBoxPhoto.Image = connector.LoadPhoto(Convert.ToInt32(table.Rows[0][0]),"Students","photo");
+			try
+			{
+				pictureBoxPhoto.Image = connector.LoadPhoto(stud_id, "Students", "photo");
+			}
+			catch (Exception ex)
+			{
+				//MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		void InitForm()
 		{

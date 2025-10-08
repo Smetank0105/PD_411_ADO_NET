@@ -202,6 +202,7 @@ namespace Academy
 					form.student.ToStringUpdate(),
 					$"stud_id={i}"
 					);
+				connector.UploadPhoto(form.student.Photo, i, "photo", "Students");
 				comboBoxStudentsGroup_SelectedIndexChanged(null, null);
 			}
 		}
