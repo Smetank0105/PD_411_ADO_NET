@@ -73,11 +73,20 @@ namespace Academy
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
-		public void UploadPhoto(byte[] image, int id, string field, string table)
+		public void Insert(string table, SqlCommand command)
 		{
-			string cmd = $"UPDATE {table} SET {field}=@image WHERE {GetPrimaryKey(table)}={id}";
-			SqlCommand command = new SqlCommand (cmd, connection);
-			command.Parameters.Add("@image", SqlDbType.VarBinary).Value = image;
+			string values = "";
+			string fields = "";
+			foreach (SqlParameter param in command.Parameters)
+			{
+				values += param.ParameterName + ",";
+				fields += param.ParameterName.Remove(1) + ",";
+			}
+			values.Remove(values.Length - 1);
+			fields.Remove(fields.Length - 1);
+			string cmd = $"INSERT INTO {table} ({fields}) VALUES {values}";
+			command.CommandText = cmd;
+			command.Connection = connection;
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
@@ -90,7 +99,28 @@ namespace Academy
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
-
+		public void Update(string table, string conditions, SqlCommand command)
+		{
+			string values = "";
+			foreach (SqlParameter param in command.Parameters)
+				values += param.ParameterName.Remove(1) + "=" + param.ParameterName + ",";
+			values.Remove(values.Length - 1);
+			string cmd = $"UPDATE {table} SET {values} WHERE {conditions}";
+			command.CommandText = cmd;
+			command.Connection = connection;
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
+		public void UploadPhoto(byte[] image, int id, string field, string table)
+		{
+			string cmd = $"UPDATE {table} SET {field}=@image WHERE {GetPrimaryKey(table)}={id}";
+			SqlCommand command = new SqlCommand (cmd, connection);
+			command.Parameters.Add("@image", SqlDbType.VarBinary).Value = image;
+			connection.Open();
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
 		public Image LoadPhoto(int id, string table, string field)
 		{
 			byte[] bytes = null;
