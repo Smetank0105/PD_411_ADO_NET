@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace Academy
 {
@@ -18,7 +21,7 @@ namespace Academy
 		public int Group { get; set; }
 		public byte[] Photo { get; set; }
 		public Student() { }
-		public Student(string last_name, string first_name, string middle_name, string birth_date, string email, string phone, int group)
+		public Student(string last_name, string first_name, string middle_name, string birth_date, string email, string phone, int group, Image photo)
 		{
 			Last_name = last_name;
 			First_name = first_name;
@@ -27,8 +30,15 @@ namespace Academy
 			Email = email;
 			Phone = phone;
 			Group = group;
+			//Photo = photo;
+			Photo = SerializePhoto(photo);
 		}
-
+		byte[] SerializePhoto(Image image)
+		{
+			MemoryStream ms = new MemoryStream();
+			image.Save(ms, image.RawFormat);
+			return ms.ToArray();
+		}
 		public override string ToString()
 		{
 			return $"N'{Last_name}',N'{First_name}',N'{Middle_name}','{Birth_date}',N'{Email}',N'{Phone}',{Group}";

@@ -69,8 +69,19 @@ namespace Academy
 				dateTimePickerBirthDate.Text,
 				textBoxEmail.Text,
 				textBoxPhone.Text,
-				Convert.ToInt32(comboBoxGroup.SelectedValue)
+				Convert.ToInt32(comboBoxGroup.SelectedValue),
+				pictureBoxPhoto.Image
 				);
+		}
+
+		private void buttonBrowsPhoto_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.Filter = "Image files|*.png;*.jpg;*.bmp;*.gif|All files|*.*";
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				pictureBoxPhoto.Image = Image.FromFile(dialog.FileName);
+			}
 		}
 	}
 }

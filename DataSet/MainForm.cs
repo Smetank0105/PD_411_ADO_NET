@@ -199,13 +199,13 @@ namespace DataSet
 			//}
 			//dataGridViewDisciplines.DataSource = dtDisciplinesForDirection;
 
-			//DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"]
-			//	.Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
-			//DataTable dtDisciplines = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
-
+			DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"]
+				.Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
+			DataTable dtDisciplines = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
 			object[] disciplines_ids = ddr.Select(row => row["discipline"]).Distinct().ToArray();
 			string filter = $"discipline_id IN ({string.Join(",", disciplines_ids)})";
 			dataGridViewDisciplines.DataSource = DisciplinesDirectionsRelation.Tables["Disciplines"].Select(filter).CopyToDataTable();
+
 			//var item = from ddr in DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].AsEnumerable()
 			//		   join disc in DisciplinesDirectionsRelation.Tables["Disciplines"].AsEnumerable()
 			//		   on ddr.Field<int>("discipline") equals disc.Field<int>("discipline_id")
