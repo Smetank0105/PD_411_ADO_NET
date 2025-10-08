@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,6 +89,25 @@ namespace Academy
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
+		}
+
+		public Image LoadPhoto(int id, string table, string field)
+		{
+			byte[] bytes = null;
+			string cmd = $"SELECT {field} FROM {table} WHERE {GetPrimaryKey(table)} = {id}";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			SqlDataReader reader = command.ExecuteReader();
+			if (reader.Read())
+			{
+				if (reader["Photo"] != DBNull.Value)
+				{
+					bytes = (byte[])reader["Photo"];
+				}
+			}
+			connection.Close();
+			MemoryStream ms = new MemoryStream(bytes);
+			return Image.FromStream(ms);
 		}
 	}
 }

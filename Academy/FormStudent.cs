@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,6 +39,8 @@ namespace Academy
 			comboBoxGroup.SelectedValue = table.Rows[0][8];
 			labelID.Visible = true;
 			labelID.Text = $"ID: {table.Rows[0][0].ToString()}";
+
+			pictureBoxPhoto.Image = connector.LoadPhoto(Convert.ToInt32(table.Rows[0][0]),"Students","photo");
 		}
 		void InitForm()
 		{
