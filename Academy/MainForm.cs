@@ -206,5 +206,26 @@ namespace Academy
 				comboBoxStudentsGroup_SelectedIndexChanged(null, null);
 			}
 		}
+
+		private void dataGridViewTeachers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0)
+			{
+				DataGridViewRow selectedRow = dataGridViewTeachers.Rows[e.RowIndex];
+				int id = Convert.ToInt32(selectedRow.Cells[0].Value);
+				FormTeacher form = new FormTeacher(id);
+				if (form.ShowDialog() == DialogResult.OK)
+					form.teacher.Update(id);
+				LoadTab(4);
+			}
+		}
+
+		private void buttonAddTeacher_Click(object sender, EventArgs e)
+		{
+			FormTeacher form = new FormTeacher();
+			if (form.ShowDialog() == DialogResult.OK)
+				form.teacher.Insert();
+			LoadTab(4);
+		}
 	}
 }

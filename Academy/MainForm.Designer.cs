@@ -47,8 +47,8 @@
 			this.tabPageDisciplines = new System.Windows.Forms.TabPage();
 			this.dataGridViewDisciplines = new System.Windows.Forms.DataGridView();
 			this.tabPageTeachers = new System.Windows.Forms.TabPage();
-			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
 			this.buttonAddTeacher = new System.Windows.Forms.Button();
+			this.dataGridViewTeachers = new System.Windows.Forms.DataGridView();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
@@ -270,6 +270,16 @@
 			this.tabPageTeachers.Text = "Teachers";
 			this.tabPageTeachers.UseVisualStyleBackColor = true;
 			// 
+			// buttonAddTeacher
+			// 
+			this.buttonAddTeacher.Location = new System.Drawing.Point(711, 8);
+			this.buttonAddTeacher.Name = "buttonAddTeacher";
+			this.buttonAddTeacher.Size = new System.Drawing.Size(75, 23);
+			this.buttonAddTeacher.TabIndex = 1;
+			this.buttonAddTeacher.Text = "Добавить";
+			this.buttonAddTeacher.UseVisualStyleBackColor = true;
+			this.buttonAddTeacher.Click += new System.EventHandler(this.buttonAddTeacher_Click);
+			// 
 			// dataGridViewTeachers
 			// 
 			this.dataGridViewTeachers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -280,15 +290,7 @@
 			this.dataGridViewTeachers.Name = "dataGridViewTeachers";
 			this.dataGridViewTeachers.Size = new System.Drawing.Size(792, 360);
 			this.dataGridViewTeachers.TabIndex = 0;
-			// 
-			// buttonAddTeacher
-			// 
-			this.buttonAddTeacher.Location = new System.Drawing.Point(711, 8);
-			this.buttonAddTeacher.Name = "buttonAddTeacher";
-			this.buttonAddTeacher.Size = new System.Drawing.Size(75, 23);
-			this.buttonAddTeacher.TabIndex = 1;
-			this.buttonAddTeacher.Text = "Добавить";
-			this.buttonAddTeacher.UseVisualStyleBackColor = true;
+			this.dataGridViewTeachers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTeachers_CellDoubleClick);
 			// 
 			// MainForm
 			// 

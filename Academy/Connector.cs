@@ -80,11 +80,11 @@ namespace Academy
 			foreach (SqlParameter param in command.Parameters)
 			{
 				values += param.ParameterName + ",";
-				fields += param.ParameterName.Remove(1) + ",";
+				fields += param.ParameterName.Remove(0, 1) + ",";
 			}
-			values.Remove(values.Length - 1);
-			fields.Remove(fields.Length - 1);
-			string cmd = $"INSERT INTO {table} ({fields}) VALUES {values}";
+			values = values.Substring(0, values.Length - 1);
+			fields = fields.Substring(0, fields.Length - 1);
+			string cmd = $"INSERT INTO {table} ({fields}) VALUES ({values})";
 			command.CommandText = cmd;
 			command.Connection = connection;
 			connection.Open();
@@ -103,8 +103,8 @@ namespace Academy
 		{
 			string values = "";
 			foreach (SqlParameter param in command.Parameters)
-				values += param.ParameterName.Remove(1) + "=" + param.ParameterName + ",";
-			values.Remove(values.Length - 1);
+				values += param.ParameterName.Remove(0, 1) + "=" + param.ParameterName + ",";
+			values = values.Substring(0,values.Length - 1);
 			string cmd = $"UPDATE {table} SET {values} WHERE {conditions}";
 			command.CommandText = cmd;
 			command.Connection = connection;
