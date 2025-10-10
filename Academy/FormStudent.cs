@@ -44,10 +44,7 @@ namespace Academy
 			{
 				pictureBoxPhoto.Image = connector.LoadPhoto(stud_id, "Students", "photo");
 			}
-			catch (Exception ex)
-			{
-				//MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+			catch (Exception ex) { }
 		}
 		void InitForm()
 		{

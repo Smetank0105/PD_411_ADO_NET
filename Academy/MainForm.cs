@@ -192,17 +192,29 @@ namespace Academy
 		private void dataGridViewStudents_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			int i = Convert.ToInt32(dataGridViewStudents.SelectedRows[0].Cells[0].Value);
-			FormStudent form = new FormStudent(i);
-			DialogResult result =  form.ShowDialog();
-			if (result == DialogResult.OK)
+			//FormStudent form = new FormStudent(i);
+			//DialogResult result =  form.ShowDialog();
+			//if (result == DialogResult.OK)
+			//{
+			//	connector.Update
+			//		(
+			//		"Students",
+			//		form.student.ToStringUpdate(),
+			//		$"stud_id={i}"
+			//		);
+			//	connector.UploadPhoto(form.student.SerializePhoto(), i, "photo", "Students");
+			//	comboBoxStudentsGroup_SelectedIndexChanged(null, null);
+			//}
+			DerivedStudent student = new DerivedStudent(i);
+			if (student.ShowDialog() == DialogResult.OK)
 			{
 				connector.Update
 					(
 					"Students",
-					form.student.ToStringUpdate(),
+					student.Human.ToStringUpdate(),
 					$"stud_id={i}"
 					);
-				connector.UploadPhoto(form.student.SerializePhoto(), i, "photo", "Students");
+				connector.UploadPhoto(student.Human.SerializePhoto(), i, "photo", "Students");
 				comboBoxStudentsGroup_SelectedIndexChanged(null, null);
 			}
 		}
