@@ -185,7 +185,7 @@ namespace Academy
 					student.student.ToString()
 					);
 				int id = Convert.ToInt32(connector.Scalar("SELECT MAX(stud_id) FROM Students"));
-				connector.UploadPhoto(student.student.Photo, id, "photo", "Students");
+				connector.UploadPhoto(student.student.SerializePhoto(), id, "photo", "Students");
 			}
 		}
 
@@ -202,7 +202,7 @@ namespace Academy
 					form.student.ToStringUpdate(),
 					$"stud_id={i}"
 					);
-				connector.UploadPhoto(form.student.Photo, i, "photo", "Students");
+				connector.UploadPhoto(form.student.SerializePhoto(), i, "photo", "Students");
 				comboBoxStudentsGroup_SelectedIndexChanged(null, null);
 			}
 		}
