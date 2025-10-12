@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace Academy
 {
@@ -31,7 +32,7 @@ namespace Academy
 		public byte[] SerializePhoto()
 		{
 			MemoryStream ms = new MemoryStream();
-			Photo.Save(ms, Photo.RawFormat);
+			Photo?.Save(ms, Photo.RawFormat);
 			return ms.ToArray();
 		}
 		public override string ToString()

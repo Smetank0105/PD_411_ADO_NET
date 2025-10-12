@@ -33,15 +33,9 @@ namespace Academy
 			catch (Exception ex) { }
 		}
 		public Student(string last_name, string first_name, string middle_name, string birth_date, string email, string phone, int group, Image photo)
+			:base(last_name,first_name,middle_name,birth_date,email,phone,photo)
 		{
-			Last_name = last_name;
-			First_name = first_name;
-			Middle_name = middle_name;
-			Birth_date = birth_date;
-			Email = email;
-			Phone = phone;
 			Group = group;
-			Photo = photo;
 		}
 		public override string ToString()
 		{

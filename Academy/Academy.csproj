@@ -60,6 +60,12 @@
     <Compile Include="DerivedStudent.Designer.cs">
       <DependentUpon>DerivedStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DerivedTeacher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DerivedTeacher.Designer.cs">
+      <DependentUpon>DerivedTeacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormStudent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,12 +96,16 @@
     <Compile Include="Query.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Teacher.cs" />
+    <Compile Include="TeacherClass.cs" />
     <Compile Include="Week.cs" />
     <EmbeddedResource Include="BaseHumanForm.resx">
       <DependentUpon>BaseHumanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DerivedStudent.resx">
       <DependentUpon>DerivedStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DerivedTeacher.resx">
+      <DependentUpon>DerivedTeacher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStudent.resx">
       <DependentUpon>FormStudent.cs</DependentUpon>
