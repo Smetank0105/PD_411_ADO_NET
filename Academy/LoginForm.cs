@@ -12,9 +12,17 @@ namespace Academy
 {
 	public partial class LoginForm : Form
 	{
+		public string Login {  get; set; }
+		public string Password { get; set; }
 		public LoginForm()
 		{
 			InitializeComponent();
+		}
+
+		private void buttonOk_Click(object sender, EventArgs e)
+		{
+			Login = textBoxLogin.Text;
+			Password = textBoxPassword.Text;
 		}
 	}
 }

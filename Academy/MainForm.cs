@@ -52,8 +52,10 @@ namespace Academy
 		{
 			InitializeComponent();
 			AllocConsole();
-			connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
-			connection = new SqlConnection(connectionString);
+			EncryptConnectionString();
+			AddLogPasToConnectionString();
+			//connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
+			//connection = new SqlConnection(connectionString);
 			connector = new Connector();
 			Console.WriteLine(tabControl.TabCount);
 			d_groupDirection = LoadDataToComboBox("*","Directions");
@@ -65,6 +67,42 @@ namespace Academy
 			for(int i = 0; i < tabControl.TabCount; i++)
 				(this.Controls.Find($"dataGridView{tabControl.TabPages[i].Name.Remove(0, "tabPage".Length)}",true)[0] as DataGridView).RowsAdded += new DataGridViewRowsAddedEventHandler(this.dataGridViewChanged);
 
+		}
+		void AddLogPasToConnectionString()
+		{
+			LoginForm form = new LoginForm();
+			connectionString = "Data Source=SMETANK\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=false; Encrypt=True;TrustServerCertificate=True;";
+			if (form.ShowDialog() == DialogResult.OK)
+				connectionString += $"User ID={form.Login};Password={form.Password};";
+			connection = new SqlConnection(connectionString);
+			try
+			{
+				connection.Open();
+				Console.WriteLine("Подключение успешно!");
+				connection.Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Ошибка подключения: {ex.Message}");
+			}
+		}
+		void EncryptConnectionString()
+		{
+			try
+			{
+				Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+				ConfigurationSection section = config.GetSection("connectionStrings");
+				if (section != null)
+				{
+					section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+					config.Save(ConfigurationSaveMode.Modified);
+					Console.WriteLine("ConnectionStrings зашифрована успешно!");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Ошибка: {ex.Message}");
+			}
 		}
 		void LoadTab(int i)
 		{
