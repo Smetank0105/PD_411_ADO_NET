@@ -53,9 +53,9 @@ namespace Academy
 			InitializeComponent();
 			AllocConsole();
 			EncryptConnectionString();
-			AddLogPasToConnectionString();
-			//connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
-			//connection = new SqlConnection(connectionString);
+			//AddLogPasToConnectionString();
+			connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
+			connection = new SqlConnection(connectionString);
 			connector = new Connector();
 			Console.WriteLine(tabControl.TabCount);
 			d_groupDirection = LoadDataToComboBox("*","Directions");
@@ -71,7 +71,7 @@ namespace Academy
 		void AddLogPasToConnectionString()
 		{
 			LoginForm form = new LoginForm();
-			connectionString = "Data Source=SMETANK\\SQLEXPRESS;Initial Catalog=PD_321;Integrated Security=false; Encrypt=True;TrustServerCertificate=True;";
+			connectionString = "Data Source=192.168.0.105;Initial Catalog=PD_321;Integrated Security=false; Encrypt=True;TrustServerCertificate=True;";
 			if (form.ShowDialog() == DialogResult.OK)
 				connectionString += $"User ID={form.Login};Password={form.Password};";
 			connection = new SqlConnection(connectionString);
