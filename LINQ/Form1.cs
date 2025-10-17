@@ -24,7 +24,7 @@ namespace LINQ
 			//2) Определяем query expression
 			IEnumerable<int> FibonacciQuery =
 				from i in arr
-				where i > 20
+				where i > 13
 				orderby i descending
 				select i;
 
@@ -32,6 +32,11 @@ namespace LINQ
 			foreach(int i in FibonacciQuery)
 				Console.Write($"{i}\t");
 			Console.WriteLine();
+
+			//immidiate queries:
+			Console.WriteLine((from i in arr select i).Count());
+			Console.WriteLine((from i in arr select i).Sum());
+			List<int> i_list = (from i in arr select i).ToList();
 		}
 		[DllImport("kernel32.dll")]
 		private static extern bool AllocConsole();

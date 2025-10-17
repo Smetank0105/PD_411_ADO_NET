@@ -199,12 +199,12 @@ namespace DataSet
 			//}
 			//dataGridViewDisciplines.DataSource = dtDisciplinesForDirection;
 
-			DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"]
-				.Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
-			DataTable dtDisciplines = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
-			object[] disciplines_ids = ddr.Select(row => row["discipline"]).Distinct().ToArray();
-			string filter = $"discipline_id IN ({string.Join(",", disciplines_ids)})";
-			dataGridViewDisciplines.DataSource = DisciplinesDirectionsRelation.Tables["Disciplines"].Select(filter).CopyToDataTable();
+			//DataRow[] ddr = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"]
+			//	.Select($"direction={comboBoxDisciplinesForDirection.SelectedValue}");
+			//DataTable dtDisciplines = DisciplinesDirectionsRelation.Tables["Disciplines"].Clone();
+			//object[] disciplines_ids = ddr.Select(row => row["discipline"]).Distinct().ToArray();
+			//string filter = $"discipline_id IN ({string.Join(",", disciplines_ids)})";
+			//dataGridViewDisciplines.DataSource = DisciplinesDirectionsRelation.Tables["Disciplines"].Select(filter).CopyToDataTable();
 
 			//var item = from ddr in DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].AsEnumerable()
 			//		   join disc in DisciplinesDirectionsRelation.Tables["Disciplines"].AsEnumerable()
@@ -212,6 +212,21 @@ namespace DataSet
 			//		   where ddr.Field<int>("direction") == Convert.ToInt32(comboBoxDisciplinesForDirection.SelectedValue)
 			//		   select disc;
 			//dataGridViewDisciplines.DataSource = item.CopyToDataTable();
+
+			DataRowView selectedDirection = comboBoxDisciplinesForDirection.SelectedItem as DataRowView;
+			string direction = selectedDirection["direction_id"].ToString();
+
+			DataTable Disciplines = DisciplinesDirectionsRelation.Tables["Disciplines"];
+			DataTable DDR = DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"];
+
+			dataGridViewDisciplines.DataSource =
+				(
+				from ddr in DDR.AsEnumerable()
+				where ddr.Field<string>("direction") == direction
+				join discipline in Disciplines.AsEnumerable()
+				on ddr.Field<string>("discipline") equals discipline.Field<string>("discipline_id")
+				select discipline
+				).CopyToDataTable();
 		}
 	}
 }
