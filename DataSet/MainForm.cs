@@ -206,13 +206,6 @@ namespace DataSet
 			//string filter = $"discipline_id IN ({string.Join(",", disciplines_ids)})";
 			//dataGridViewDisciplines.DataSource = DisciplinesDirectionsRelation.Tables["Disciplines"].Select(filter).CopyToDataTable();
 
-			//var item = from ddr in DisciplinesDirectionsRelation.Tables["DisciplinesDirectionsRelation"].AsEnumerable()
-			//		   join disc in DisciplinesDirectionsRelation.Tables["Disciplines"].AsEnumerable()
-			//		   on ddr.Field<int>("discipline") equals disc.Field<int>("discipline_id")
-			//		   where ddr.Field<int>("direction") == Convert.ToInt32(comboBoxDisciplinesForDirection.SelectedValue)
-			//		   select disc;
-			//dataGridViewDisciplines.DataSource = item.CopyToDataTable();
-
 			DataRowView selectedDirection = comboBoxDisciplinesForDirection.SelectedItem as DataRowView;
 			string direction = selectedDirection["direction_id"].ToString();
 
