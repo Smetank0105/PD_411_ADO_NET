@@ -14,6 +14,7 @@ namespace Academy
 	{
 		public string Login {  get; set; }
 		public string Password { get; set; }
+		public string IP {  get; set; }
 		public LoginForm()
 		{
 			InitializeComponent();
@@ -23,6 +24,7 @@ namespace Academy
 		{
 			Login = textBoxLogin.Text;
 			Password = textBoxPassword.Text;
+			IP = textBoxIP.Text;
 		}
 	}
 }

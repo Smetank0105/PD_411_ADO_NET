@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Academy
 {
-	internal class Connector
+	internal class ConnectorOLD
 	{
 		string connectionString = "";
 		SqlConnection connection = null;
-		public Connector()
+		public ConnectorOLD()
 		{
 			connectionString = ConfigurationManager.ConnectionStrings["PD_321"].ConnectionString;
 			connection = new SqlConnection(connectionString);

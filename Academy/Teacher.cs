@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
+using DBtools;
 
 namespace Academy
 {

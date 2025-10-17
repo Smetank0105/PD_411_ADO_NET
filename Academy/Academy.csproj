@@ -150,5 +150,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBtools\DBtools.csproj">
+      <Project>{b71cb787-a14d-4924-b557-0b7207921ab3}</Project>
+      <Name>DBtools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
